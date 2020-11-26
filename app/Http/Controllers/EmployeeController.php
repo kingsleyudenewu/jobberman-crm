@@ -79,8 +79,10 @@ class EmployeeController extends Controller
 
         DB::beginTransaction();
         try {
+            if ($employee->id !== auth()->user()->id) {
+                return  $this->badRequestAlert('Sorry you cannot update another users profile');
+            }
             $employee->update([
-                'company_id' => $request->company_id,
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => $request->password,
