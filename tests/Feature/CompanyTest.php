@@ -13,10 +13,10 @@ class CompanyTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testFetchAllCompany()
     {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
+        $this->withoutExceptionHandling();
+//        $this->withoutMiddleware();
+        $this->json('GET', 'api/v1/companies')->assertStatus(200);
     }
 }
