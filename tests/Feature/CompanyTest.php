@@ -16,7 +16,13 @@ class CompanyTest extends TestCase
     public function testFetchAllCompany()
     {
         $this->withoutExceptionHandling();
-//        $this->withoutMiddleware();
-        $this->json('GET', 'api/v1/companies')->assertStatus(200);
+        $this->json('GET', route('company.index'), $this->headers)->assertStatus(200);
+    }
+
+    public function testGetASingleCompany()
+    {
+        $this->withoutExceptionHandling();
+        $company = $this->company->id;
+        $this->json('GET', route('company.show', $company), $this->headers)->assertStatus(200);
     }
 }

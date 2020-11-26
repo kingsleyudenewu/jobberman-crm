@@ -20,4 +20,5 @@ Route::group(['prefix' => 'v1/auth'], function () {
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'v1'], function () {
     Route::get('/companies', 'CompanyController@index')->name('company.index');
+    Route::get('/companies/{company}', 'CompanyController@show')->name('company.show');
 });

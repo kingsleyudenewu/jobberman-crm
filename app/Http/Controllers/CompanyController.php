@@ -21,5 +21,16 @@ class CompanyController extends Controller
         }
     }
 
-
+    public function show(Company  $company)
+    {
+        try {
+            if (is_null($company)) {
+                return  $this->notFoundAlert('Company not found');
+            }
+            return  $this->successResponse('success', $company);
+        }
+        catch (\Exception $exception) {
+            return $this->serverErrorAlert('error', $exception);
+        }
+    }
 }

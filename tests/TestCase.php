@@ -30,6 +30,6 @@ abstract class TestCase extends BaseTestCase
         $this->company = Company::factory()->create();
         $this->employee = Employee::factory()->create();
         $this->headers['Accept'] = 'application/json';
-
+        $this->actingAs($this->user, 'api');
     }
 }
