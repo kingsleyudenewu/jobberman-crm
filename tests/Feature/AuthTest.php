@@ -17,10 +17,14 @@ class AuthTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testLogin()
     {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
+        $this->withoutExceptionHandling();
+        $payload = [
+            'email' => $this->user->email,
+            'password' => 'password',
+        ];
+        $this->json('POST','/api/v1/auth/login', $payload, $this->headers)->assertStatus(200);
+        $this->assertAuthenticated();
     }
 }
