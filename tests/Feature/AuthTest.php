@@ -17,14 +17,36 @@ class AuthTest extends TestCase
      *
      * @return void
      */
-    public function testLogin()
+    public function testAdminLogin()
     {
         $this->withoutExceptionHandling();
         $payload = [
             'email' => $this->user->email,
             'password' => 'password',
         ];
-        $this->json('POST','/api/v1/auth/login', $payload, $this->headers)->assertStatus(200);
+        $this->json('POST',route('admin.login'), $payload, $this->headers)->assertStatus(200);
+        $this->assertAuthenticated();
+    }
+
+    public function testCompanyLogin()
+    {
+        $this->withoutExceptionHandling();
+        $payload = [
+            'email' => $this->company->email,
+            'password' => 'password',
+        ];
+        $this->json('POST',route('company.login'), $payload, $this->headers)->assertStatus(200);
+        $this->assertAuthenticated();
+    }
+
+    public function testEmployeeLogin()
+    {
+        $this->withoutExceptionHandling();
+        $payload = [
+            'email' => $this->employee->email,
+            'password' => 'password',
+        ];
+        $this->json('POST',route('employee.login'), $payload, $this->headers)->assertStatus(200);
         $this->assertAuthenticated();
     }
 
@@ -35,7 +57,7 @@ class AuthTest extends TestCase
             'email' => '',
             'password' => 'password',
         ];
-        $this->json('POST','/api/v1/auth/login', $payload, $this->headers)
+        $this->json('POST',route('admin.login'), $payload, $this->headers)
             ->assertStatus(422)
             ->assertJsonFragment([
                 'statusCode' => 422,

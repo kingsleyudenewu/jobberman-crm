@@ -9,6 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Artisan;
+use Laravel\Passport\Passport;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -30,6 +31,9 @@ abstract class TestCase extends BaseTestCase
         $this->company = Company::factory()->create();
         $this->employee = Employee::factory()->create();
         $this->headers['Accept'] = 'application/json';
-        $this->actingAs($this->user, 'api');
+
+        Passport::actingAs($this->user, ['user'], 'api');
+        Passport::actingAs($this->company, ['company'], 'company');
+        Passport::actingAs($this->employee, ['employee'], 'employee');
     }
 }

@@ -16,20 +16,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1'],function(){
     Route::group(['prefix' => 'users'],function(){
-
+        Route::post('/auth/login', 'AuthController@adminLogin')->name('admin.login');
     });
 
     Route::group(['prefix' => 'companies'],function(){
-
+        Route::post('/auth/login', 'AuthController@companyLogin')->name('company.login');
     });
 
     Route::group(['prefix' => 'employees'],function(){
-
+        Route::post('/auth/login', 'AuthController@employeeLogin')->name('employee.login');
     });
-});
-
-Route::group(['prefix' => 'v1/auth'], function () {
-    Route::post('/login', 'AuthController@login')->name('login');
 });
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'v1'], function () {
