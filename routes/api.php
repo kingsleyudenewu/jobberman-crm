@@ -20,15 +20,13 @@ Route::group(['prefix' => 'v1'],function(){
     });
 
     Route::group(['prefix' => 'companies'],function(){
+        Route::get('/', 'CompanyController@index')->name('company.index');
         Route::post('/auth/login', 'AuthController@companyLogin')->name('company.login');
+        Route::get('/{company}', 'CompanyController@show')->name('company.show');
+        Route::get('/{company}/employees', 'CompanyController@viewEmployees')->name('company.employees');
     });
 
     Route::group(['prefix' => 'employees'],function(){
         Route::post('/auth/login', 'AuthController@employeeLogin')->name('employee.login');
     });
-});
-
-Route::group(['middleware' => 'auth:api', 'prefix' => 'v1'], function () {
-    Route::get('/companies', 'CompanyController@index')->name('company.index');
-    Route::get('/companies/{company}', 'CompanyController@show')->name('company.show');
 });

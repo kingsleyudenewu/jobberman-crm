@@ -25,4 +25,11 @@ class CompanyTest extends TestCase
         $company = $this->company->id;
         $this->json('GET', route('company.show', $company), $this->headers)->assertStatus(200);
     }
+
+    public function testGetAllEmployees()
+    {
+        $this->withoutExceptionHandling();
+        $company = $this->company->id;
+        $this->json('GET', route('company.employees', $company), $this->headers)->assertStatus(200);
+    }
 }

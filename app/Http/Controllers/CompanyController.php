@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\Employee;
 use App\Traits\ApiResponse;
 use App\Traits\UploadTrait;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +16,10 @@ class CompanyController extends Controller
 {
     use ApiResponse, UploadTrait;
 
-    public function index()
+    /**
+     * @return JsonResponse
+     */
+    public function index(): JsonResponse
     {
         try {
             $companies = Company::paginate(5);
@@ -25,7 +30,11 @@ class CompanyController extends Controller
         }
     }
 
-    public function show(Company  $company)
+    /**
+     * @param Company $company
+     * @return JsonResponse
+     */
+    public function show(Company  $company): JsonResponse
     {
         try {
             if (is_null($company)) {
@@ -38,7 +47,26 @@ class CompanyController extends Controller
         }
     }
 
-    public function store(Request  $request)
+    /**
+     * @param Company $company
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function viewEmployees(Company $company) : JsonResponse
+    {
+        try {
+            $employees = Employee::where('company_id', $company->id)->get();
+            return $this->successResponse('success', $employees);
+        }
+        catch (\Exception $exception) {
+            return $this->serverErrorAlert('error', $exception);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function store(Request  $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
             "name" => "required",
