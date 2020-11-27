@@ -16,26 +16,34 @@ class AuthController extends Controller
 {
     use ApiResponse;
 
+    private $validator;
+    private $request;
+
+    public function __construct(Request $request)
+    {
+        $this->validator = $this->validateCredentials($request->all());
+        $this->request = $request;
+    }
+
     /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function adminLogin(Request $request): JsonResponse
+    public function adminLogin(): JsonResponse
     {
-        $validator = $this->validateCredentials($request->all());
-        if ($validator->fails()) {
-            return $this->formValidationErrorAlert(Arr::flatten($validator->errors()->toArray()));
+        if ($this->validator->fails()) {
+            return $this->formValidationErrorAlert(Arr::flatten($this->validator->errors()->toArray()));
         }
 
         try {
             // Validate email
-            $user = $this->validateEmail('user', $request->email);
+            $user = $this->validateEmail('user', $this->request->email);
             if (is_null($user)) {
                 return $this->notFoundAlert('User not found');
             }
 
             // Validate password
-            if (!$this->validatePassword($user, $request->password)) {
+            if (!$this->validatePassword($user, $this->request->password)) {
                 return $this->badRequestAlert('Invalid login credentials');
             }
             // Generate token for the user
@@ -50,22 +58,21 @@ class AuthController extends Controller
         }
     }
 
-    public function companyLogin(Request $request)
+    public function companyLogin()
     {
-        $validator = $this->validateCredentials($request->all());
-        if ($validator->fails()) {
-            return $this->formValidationErrorAlert(Arr::flatten($validator->errors()->toArray()));
+        if ($this->validator->fails()) {
+            return $this->formValidationErrorAlert(Arr::flatten($this->validator->errors()->toArray()));
         }
 
         try {
             // Validate email
-            $user = $this->validateEmail('company', $request->email);
+            $user = $this->validateEmail('company', $this->request->email);
             if (is_null($user)) {
                 return $this->notFoundAlert('User not found');
             }
 
             // Validate password
-            if (!$this->validatePassword($user, $request->password)) {
+            if (!$this->validatePassword($user, $this->request->password)) {
                 return $this->badRequestAlert('Invalid login credentials');
             }
             // Generate token for the user
@@ -80,22 +87,21 @@ class AuthController extends Controller
         }
     }
 
-    public function employeeLogin(Request $request)
+    public function employeeLogin()
     {
-        $validator = $this->validateCredentials($request->all());
-        if ($validator->fails()) {
-            return $this->formValidationErrorAlert(Arr::flatten($validator->errors()->toArray()));
+        if ($this->validator->fails()) {
+            return $this->formValidationErrorAlert(Arr::flatten($this->validator->errors()->toArray()));
         }
 
         try {
             // Validate email
-            $user = $this->validateEmail('employee', $request->email);
+            $user = $this->validateEmail('employee', $this->request->email);
             if (is_null($user)) {
                 return $this->notFoundAlert('User not found');
             }
 
             // Validate password
-            if (!$this->validatePassword($user, $request->password)) {
+            if (!$this->validatePassword($user, $this->request->password)) {
                 return $this->badRequestAlert('Invalid login credentials');
             }
             // Generate token for the user
