@@ -12,8 +12,6 @@ export default {
                 }
             });
 
-            console.log(response.data);
-
             if (response.data.message === 'success') {
                 const payload = {
                     token: response.data.data.access_token,
@@ -78,8 +76,8 @@ export default {
     logOutAction: async ({commit}) => {
         try {
             const response = await axios({
-                'method': 'post',
-                'url': '/api/v1/logout',
+                'method': 'get',
+                'url': '/api/v1/logout'
             });
 
             if (response.data.message === 'success') {

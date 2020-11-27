@@ -1,5 +1,7 @@
 export default {
-    isLoggedIn: !!localStorage.getItem('token'),
-    token: localStorage.getItem('token'),
-    guard: null
+    isLoggedIn: false,
+    token: null,
+    guard: null,
+    company: [],
+    employee: []
 }

@@ -3,6 +3,7 @@ export default {
         state.isLoggedIn = true;
         state.token = token;
         state.guard = guard;
+        localStorage.setItem('token', token);
     },
     authError: (state) => {
         state.isLoggedIn = false;

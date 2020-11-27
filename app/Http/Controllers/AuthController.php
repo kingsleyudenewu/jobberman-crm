@@ -122,7 +122,7 @@ class AuthController extends Controller
     public function logout(): JsonResponse {
         $token = $this->request->user()->token();
         $token->revoke();
-        return $this->successResponse('You have been successfully logged out!');
+        return $this->successResponse('success');
     }
 
     private function validateCredentials($request)

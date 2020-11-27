@@ -36,5 +36,5 @@ Route::group(['prefix' => 'v1'],function(){
 //        });
     });
 
-    Route::post('/logout', 'AuthController@logout')->name('logout')->middleware(['auth:company', 'auth:api', 'auth:employee']);
+    Route::get('/logout', 'AuthController@logout')->name('logout')->middleware(['auth:company', 'auth:api', 'auth:employee']);
 });
