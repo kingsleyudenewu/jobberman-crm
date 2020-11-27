@@ -13,7 +13,7 @@ export default {
             });
 
             if (response.message === 'success') {
-                commit('authSuccess', response.data.access_token )
+                await commit('authSuccess', response.data.access_token );
             }
         }
         catch (error){

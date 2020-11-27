@@ -1,5 +1,6 @@
 import Vue from 'vue';
-import VueRouter from 'vue-router'
+import VueRouter from 'vue-router';
+import store from './store';
 import Dashboard from "./views/Dashboard";
 import Login from "./views/Login";
 import Employee from "./views/Employee";
@@ -9,6 +10,14 @@ Vue.use(VueRouter);
 const routes = [
     {
         path: '/',
+        name: 'Login',
+        component: Login,
+        meta: {
+            auth: false
+        }
+    },
+    {
+        path: '/dashboard',
         name: 'Dashboard',
         component: Dashboard,
         meta: {requiresAuth: true}
@@ -18,20 +27,13 @@ const routes = [
         name: 'Employee',
         component: Employee,
         meta: {requiresAuth: true}
-    },
-    {
-        path: '/login',
-        name: 'Login',
-        component: Login,
-        meta: {
-            auth: false
-        }
     }
 ];
 
-const router = new Router({
+const router = new VueRouter({
     history: true,
     mode: 'history',
+    base: process.env.BASE_URL,
     routes
 });
 
@@ -45,7 +47,7 @@ router.beforeEach((to, from, next) => {
     }
 
     // if logged in redirect to dashboard
-    if(to.path === '/login' && store.state.isLoggedIn) {
+    if(to.path === '/' && store.state.isLoggedIn) {
         next({ name: 'Dashboard' })
         return
     }
