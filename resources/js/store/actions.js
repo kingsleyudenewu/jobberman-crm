@@ -73,7 +73,7 @@ export default {
         }
     },
 
-    logoutAction: async ({commit}) => {
+    logOutAction: async ({commit}) => {
         try {
             const response = await axios({
                 'method': 'post',

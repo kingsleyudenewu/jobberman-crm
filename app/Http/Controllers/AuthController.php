@@ -116,6 +116,15 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * Add endpoint to log out a user
+     */
+    public function logout(): JsonResponse {
+        $token = $this->request->user()->token();
+        $token->revoke();
+        return $this->successResponse('You have been successfully logged out!');
+    }
+
     private function validateCredentials($request)
     {
         return Validator::make($request, [

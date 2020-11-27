@@ -19,6 +19,11 @@
             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
             Company
           </router-link>
+
+          <a href="#" @click="">
+            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+            LogOut
+          </a>
         </div>
       </div>
       <div class="sb-sidenav-footer">
@@ -30,9 +35,34 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 export default {
   name: "Sidebar",
+  method: {
+    ...mapActions([
+        'logOutAction'
+    ]),
+    async logOut() {
+      try {
+        if (this.$store.getters.getGuard === 'user') {
+          await this.logOutAction();
+          await this.$router.push('/');
+        }
+        else if (this.$store.getters.getGuard === 'company') {
+          await this.logOutAction();
+          await this.$router.push('/company/login');
+        }
+        else {
+          await this.logOutAction();
+          await this.$router.push('/employee/login');
+        }
+
+      }
+      catch (error) {
+        console.log(error);
+      }
+    }
+  },
   computed: {
     ...mapGetters([
         'isAuthenticated',
