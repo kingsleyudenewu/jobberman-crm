@@ -28,7 +28,7 @@
                                                        type="password" placeholder="Enter password" />
                                             </div>
                                             <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-                                                <a class="small" href="password.html">Forgot Password?</a>
+<!--                                                <a class="small" href="password.html">Forgot Password?</a>-->
                                                 <a class="btn btn-primary" @click="login">Login
                                                 </a>
                                             </div>

@@ -11,7 +11,7 @@ import BootstrapVue from 'bootstrap-vue';
 Vue.use(BootstrapVue);
 Vue.use(VueAxios, axios);
 
-axios.defaults.baseURL = 'http://localhost:8002/api/v1/auth';
+// axios.defaults.baseURL = '/api/v1/auth';
 
 new Vue({
     el: '#app',
