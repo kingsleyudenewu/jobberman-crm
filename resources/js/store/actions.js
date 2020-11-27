@@ -13,7 +13,11 @@ export default {
             });
 
             if (response.message === 'success') {
-                await commit('authSuccess', response.data.access_token );
+                const payload = {
+                    token: response.data.access_token,
+                    guard: 'user'
+                }
+                await commit('authSuccess', payload );
             }
         }
         catch (error){
@@ -33,7 +37,11 @@ export default {
             });
 
             if (response.message === 'success') {
-                await commit('authSuccess', response.data.access_token );
+                const payload = {
+                    token: response.data.access_token,
+                    guard: 'company'
+                }
+                await commit('authSuccess', payload );
             }
         }
         catch (error){
@@ -53,7 +61,11 @@ export default {
             });
 
             if (response.message === 'success') {
-                await commit('authSuccess', response.data.access_token );
+                const payload = {
+                    token: response.data.access_token,
+                    guard: 'employee'
+                }
+                await commit('authSuccess', payload );
             }
         }
         catch (error){

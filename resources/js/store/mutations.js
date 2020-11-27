@@ -1,7 +1,8 @@
 export default {
-    authSuccess: (state, token) => {
+    authSuccess: (state, {token, guard}) => {
         state.isLoggedIn = true;
         state.token = token;
+        state.guard = guard;
     },
     authError: (state) => {
         state.isLoggedIn = false;
