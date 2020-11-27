@@ -20,10 +20,10 @@
             Company
           </router-link>
 
-          <a href="#" @click="">
-            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-            LogOut
-          </a>
+<!--          <a href="#" @click="logOut">-->
+<!--            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>-->
+<!--            LogOut-->
+<!--          </a>-->
         </div>
       </div>
       <div class="sb-sidenav-footer">
@@ -39,22 +39,22 @@ import { mapGetters, mapActions } from 'vuex';
 export default {
   name: "Sidebar",
   method: {
-    ...mapActions([
-        'logOutAction'
-    ]),
+    // ...mapActions([
+    //     'logOutAction'
+    // ]),
     async logOut() {
       try {
         if (this.$store.getters.getGuard === 'user') {
-          await this.logOutAction();
-          await this.$router.push('/');
+          await this.$store.dispatch('logOutAction')
+          await this.$router.push({name:"Dashboard"})
         }
         else if (this.$store.getters.getGuard === 'company') {
-          await this.logOutAction();
-          await this.$router.push('/company/login');
+          await this.$store.dispatch('logOutAction')
+          await this.$router.push({name:"CompanyLogin"})
         }
         else {
-          await this.logOutAction();
-          await this.$router.push('/employee/login');
+          await this.$store.dispatch('logOutAction')
+          await this.$router.push({name:"EmployeeLogin"})
         }
 
       }

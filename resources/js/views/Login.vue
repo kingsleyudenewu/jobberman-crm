@@ -91,7 +91,9 @@ export default {
     async login() {
       try {
         await this.loginAction(this.formData);
-        this.$router.dispatch('/dashboard');
+        this.showError = false;
+        await this.$router.push({name: "Dashboard"});
+
       } catch (error) {
         this.showError = true;
       }

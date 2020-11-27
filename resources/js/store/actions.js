@@ -12,9 +12,11 @@ export default {
                 }
             });
 
-            if (response.message === 'success') {
+            console.log(response.data);
+
+            if (response.data.message === 'success') {
                 const payload = {
-                    token: response.data.access_token,
+                    token: response.data.data.access_token,
                     guard: 'user'
                 }
                 await commit('authSuccess', payload );
@@ -36,9 +38,9 @@ export default {
                 }
             });
 
-            if (response.message === 'success') {
+            if (response.data.message === 'success') {
                 const payload = {
-                    token: response.data.access_token,
+                    token: response.data.data.access_token,
                     guard: 'company'
                 }
                 await commit('authSuccess', payload );
@@ -60,9 +62,9 @@ export default {
                 }
             });
 
-            if (response.message === 'success') {
+            if (response.data.message === 'success') {
                 const payload = {
-                    token: response.data.access_token,
+                    token: response.data.data.access_token,
                     guard: 'employee'
                 }
                 await commit('authSuccess', payload );
@@ -80,7 +82,7 @@ export default {
                 'url': '/api/v1/logout',
             });
 
-            if (response.message === 'success') {
+            if (response.data.message === 'success') {
                 await commit('authLogOut');
             }
         }
