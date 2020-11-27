@@ -13,9 +13,7 @@ use Tests\TestCase;
 class AuthTest extends TestCase
 {
     /**
-     * A basic feature test example.
-     *
-     * @return void
+     * @group admin_login
      */
     public function testAdminLogin()
     {
@@ -25,7 +23,8 @@ class AuthTest extends TestCase
             'password' => 'password',
         ];
         $this->json('POST',route('admin.login'), $payload, $this->headers)->assertStatus(200);
-        $this->assertAuthenticated();
+        $this->actingAs($this->user, 'api');
+        $this->assertAuthenticated('api');
     }
 
     /**
@@ -43,6 +42,9 @@ class AuthTest extends TestCase
         $this->assertAuthenticated('company');
     }
 
+    /**
+     * @group employee_login
+     */
     public function testEmployeeLogin()
     {
         $this->withoutExceptionHandling();
@@ -51,7 +53,8 @@ class AuthTest extends TestCase
             'password' => 'password',
         ];
         $this->json('POST',route('employee.login'), $payload, $this->headers)->assertStatus(200);
-        $this->assertAuthenticated();
+        $this->actingAs($this->employee, 'employee');
+        $this->assertAuthenticated('employee');
     }
 
     public function testMustEnterEmail()
@@ -62,6 +65,24 @@ class AuthTest extends TestCase
             'password' => 'password',
         ];
         $this->json('POST',route('admin.login'), $payload, $this->headers)
+            ->assertStatus(422)
+            ->assertJsonFragment([
+                'statusCode' => 422,
+                'message' => 'Whoops. Validation failed.'
+            ]);
+    }
+
+    /**
+     * @group company_login
+     */
+    public function testCompanyEnterEmail()
+    {
+        $this->withoutExceptionHandling();
+        $payload = [
+            'email' => '',
+            'password' => 'password',
+        ];
+        $this->json('POST',route('company.login'), $payload, $this->headers)
             ->assertStatus(422)
             ->assertJsonFragment([
                 'statusCode' => 422,
