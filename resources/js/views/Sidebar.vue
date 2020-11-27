@@ -10,9 +10,14 @@
             Dashboard
           </router-link>
 
-          <router-link to="/employee" class="nav-link" v-if="getGuard === 'user">
+          <router-link to="/employee" class="nav-link" v-if="getGuard === 'user' || getGuard === 'company'">
             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
             Employee
+          </router-link>
+
+          <router-link to="/company" class="nav-link" v-if="getGuard === 'user'">
+            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+            Company
           </router-link>
         </div>
       </div>

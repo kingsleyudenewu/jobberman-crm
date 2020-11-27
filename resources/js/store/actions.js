@@ -73,12 +73,16 @@ export default {
         }
     },
 
-    logoutAction: async ({commit}, token) => {
+    logoutAction: async ({commit}) => {
         try {
             const response = await axios({
                 'method': 'post',
                 'url': '/api/v1/logout',
             });
+
+            if (response.message === 'success') {
+                await commit('authLogOut');
+            }
         }
         catch (error) {
             commit('authError')

@@ -7,5 +7,11 @@ export default {
     authError: (state) => {
         state.isLoggedIn = false;
         state.token = null;
+        state.guard = null;
+    },
+    authLogOut: (state) => {
+        state.isLoggedIn = false;
+        state.token = null;
+        state.guard = null;
     }
 }

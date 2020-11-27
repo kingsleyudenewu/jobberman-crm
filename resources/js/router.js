@@ -6,6 +6,7 @@ import Login from "./views/Login";
 import Employee from "./views/Employee";
 import EmployeeLogin from "./views/EmployeeLogin";
 import CompanyLogin from "./views/CompanyLogin";
+import Company from "./views/Company";
 
 Vue.use(VueRouter);
 
@@ -47,9 +48,9 @@ const routes = [
         meta: {requiresAuth: true}
     },
     {
-        path: '/employee',
-        name: 'Employee',
-        component: Employee,
+        path: '/company',
+        name: 'Company',
+        component: Company,
         meta: {requiresAuth: true}
     }
 ];
