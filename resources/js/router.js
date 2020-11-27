@@ -45,6 +45,12 @@ const routes = [
         name: 'Employee',
         component: Employee,
         meta: {requiresAuth: true}
+    },
+    {
+        path: '/employee',
+        name: 'Employee',
+        component: Employee,
+        meta: {requiresAuth: true}
     }
 ];
 

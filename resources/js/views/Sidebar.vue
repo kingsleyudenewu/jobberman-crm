@@ -5,19 +5,15 @@
       <div class="sb-sidenav-menu">
         <div class="nav">
           <div class="sb-sidenav-menu-heading">Core</div>
-          <router-link to="/company/login" class="nav-link">
+          <router-link to="/dashboard" class="nav-link">
             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
             Dashboard
           </router-link>
 
-          <a class="nav-link" href="charts.html">
-            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-            Charts
-          </a>
-          <a class="nav-link" href="tables.html">
-            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-            Tables
-          </a>
+          <router-link to="/employee" class="nav-link" v-if="getGuard === 'user">
+            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+            Employee
+          </router-link>
         </div>
       </div>
       <div class="sb-sidenav-footer">
@@ -29,8 +25,15 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
-  name: "Sidebar"
+  name: "Sidebar",
+  computed: {
+    ...mapGetters([
+        'isAuthenticated',
+        'getGuard'
+    ])
+  }
 }
 </script>
 
