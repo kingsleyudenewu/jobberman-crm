@@ -28,6 +28,9 @@ class AuthTest extends TestCase
         $this->assertAuthenticated();
     }
 
+    /**
+     * @group company_login
+     */
     public function testCompanyLogin()
     {
         $this->withoutExceptionHandling();
@@ -36,7 +39,8 @@ class AuthTest extends TestCase
             'password' => 'password',
         ];
         $this->json('POST',route('company.login'), $payload, $this->headers)->assertStatus(200);
-        $this->assertAuthenticated();
+        $this->actingAs($this->company, 'company');
+        $this->assertAuthenticated('company');
     }
 
     public function testEmployeeLogin()

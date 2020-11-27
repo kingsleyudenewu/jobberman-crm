@@ -68,7 +68,6 @@ class EmployeeController extends Controller
     public function update(Request  $request, Employee $employee)
     {
         $validator = Validator::make($request->all(), [
-            "company_id" => "required|exists:companies,id",
             "name" => "required",
             "email" => "required|email",
             "password" => "required",
