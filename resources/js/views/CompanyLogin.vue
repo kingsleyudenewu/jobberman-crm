@@ -86,12 +86,12 @@ export default {
   },
   methods: {
     ...mapActions([
-      'loginAction'
+      'companyLoginAction'
     ]),
     async login() {
       try {
-        await this.loginAction(this.formData);
-        this.$router.dispatch('/');
+        await this.companyLoginAction(this.formData);
+        this.$router.dispatch('/dashboard');
       } catch (error) {
         this.showError = true;
       }
