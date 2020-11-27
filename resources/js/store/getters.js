@@ -1,3 +1,4 @@
 export default {
-    isAuthenticated: state => state.isLoggedIn
+    isAuthenticated: state => state.isLoggedIn,
+    getGuard: state => state.guard
 }
