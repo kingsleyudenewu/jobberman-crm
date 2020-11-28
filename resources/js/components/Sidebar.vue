@@ -28,7 +28,7 @@
       </div>
       <div class="sb-sidenav-footer">
         <div class="small">Logged in as:</div>
-        Start Bootstrap
+        {{ getUser.name }}
       </div>
     </nav>
   </div>
@@ -66,7 +66,8 @@ export default {
   computed: {
     ...mapGetters([
         'isAuthenticated',
-        'getGuard'
+        'getGuard',
+        'getUser'
     ])
   }
 }

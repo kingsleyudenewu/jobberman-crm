@@ -16,7 +16,7 @@
              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
               class="fas fa-user fa-fw"></i></a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-            <router-link to="/profile" class="navbar-brand">
+            <router-link to="/profile" class="dropdown-item">
               Profile
             </router-link>
             <div class="dropdown-divider"></div>

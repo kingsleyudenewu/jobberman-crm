@@ -115,7 +115,6 @@ export default {
             commit('authError')
         }
     },
-
     getEmployeeAction: async ({commit}, currentPage) => {
         try {
             const token = localStorage.getItem('token');
@@ -127,6 +126,22 @@ export default {
 
             if (response.data.message === 'success') {
                 await commit('setEmployee', response.data.data);
+            }
+        }
+        catch (error) {
+            commit('authError')
+        }
+    },
+    updateProfile: async ({commit}, {name, email, password}, token) => {
+        try{
+            const response = await axios({
+                'method': 'post',
+                'url': '/api/v1/profile/update',
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (response.data.message === 'success') {
+                await commit('setUser', response.data.data);
             }
         }
         catch (error) {

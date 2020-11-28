@@ -23,5 +23,8 @@ export default {
     },
     setEmployee: (state, employee) => {
         state.employee = employee;
+    },
+    setUser: (state, user) => {
+        state.user = user;
     }
 }
