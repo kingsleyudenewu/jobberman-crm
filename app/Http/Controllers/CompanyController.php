@@ -23,18 +23,7 @@ class CompanyController extends Controller
     {
         try {
             $companies = Company::select('name', 'email', 'url')->paginate(5);
-            $response = [
-                'pagination' => [
-                    'total' => $companies->total(),
-                    'per_page' => $companies->perPage(),
-                    'current_page' => $companies->currentPage(),
-                    'last_page' => $companies->lastPage(),
-                    'from' => $companies->firstItem(),
-                    'to' => $companies->lastItem(),
-                ],
-                'data' => $companies
-            ];
-            return $this->successResponse('success', $response);
+            return $this->successResponse('success', $companies);
         }
         catch (\Exception $exception) {
             return $this->serverErrorAlert('error', $exception);

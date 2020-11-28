@@ -3,5 +3,8 @@ export default {
     token: null,
     guard: null,
     company: [],
-    employee: []
+    employee: [],
+    pagination: {
+        currentPage: 1,
+    },
 }

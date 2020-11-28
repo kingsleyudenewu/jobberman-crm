@@ -1,28 +1,44 @@
 <template>
   <div>
-    <Pagination :pagination="pagination" @paginate="" :offset="4"></Pagination>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Url</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr v-for="company in getCompany.data">
+        <td>{{ company.name }}</td>
+        <td>{{ company.email }}</td>
+        <td>{{ company.url }}</td>
+      </tr>
+      </tbody>
+    </table>
+    <pagination :data="getCompany" @pagination-change-page="getCompanyAction"></pagination>
   </div>
 </template>
 
 <script>
-import {mapState, mapActions } from 'vuex';
-import Pagination from "../components/Pagination";
+import {mapGetters, mapActions} from 'vuex';
+import pagination from 'laravel-vue-pagination';
+
 
 export default {
   name: "Company",
   components: {
-    Pagination
+    pagination
   },
   data() {
     return {
       offset: 4,
-      pagination: {},
-      company: []
+      pagination: {}
     }
   },
   computed: {
-    ...mapState([
-      'company'
+    ...mapGetters([
+      'getCompany'
     ])
   },
   methods: {
@@ -31,7 +47,7 @@ export default {
     ])
   },
   created() {
-    this.company = this.getCompanyAction()
+    this.getCompanyAction(this.$store.state.pagination.currentPage)
   },
 }
 </script>

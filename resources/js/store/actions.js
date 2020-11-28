@@ -95,12 +95,12 @@ export default {
         }
     },
 
-    getCompanyAction: async ({commit}) => {
+    getCompanyAction: async ({commit}, currentPage) => {
         try {
             const token = localStorage.getItem('token');
             const response = await axios({
                 'method': 'get',
-                'url': '/api/v1/companies',
+                'url': '/api/v1/companies?page='+ currentPage,
                 headers: { Authorization: `Bearer ${token}` }
             });
 
