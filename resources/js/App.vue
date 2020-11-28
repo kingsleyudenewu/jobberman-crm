@@ -26,9 +26,9 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import Header from "./views/Header";
-import Sidebar from "./views/Sidebar";
-import Footer from "./views/Footer";
+import Header from "./components/Header";
+import Sidebar from "./components/Sidebar";
+import Footer from "./components/Footer";
 
 
 export default {
