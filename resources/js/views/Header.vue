@@ -1,8 +1,11 @@
 <template>
   <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-    <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+    <router-link to="/dashboard" class="navbar-brand">
+      Jobberman CRM
+    </router-link>
     <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i
         class="fas fa-bars"></i></button>
+
     <!-- Navbar Search-->
 
     <!-- Navbar-->
@@ -16,7 +19,7 @@
             <a class="dropdown-item" href="#">Settings</a>
             <a class="dropdown-item" href="#">Activity Log</a>
             <div class="dropdown-divider"></div>
-            <a @click="logOut" class="dropdown-item" href="login.html">Logout</a>
+            <a @click="logOut" class="dropdown-item" href="javascript:void(0);">Logout</a>
           </div>
         </li>
       </ul>

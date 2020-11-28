@@ -16,6 +16,7 @@ export default {
                 localStorage.setItem('token', response.data.data.access_token);
                 const payload = {
                     token: response.data.data.access_token,
+                    user: response.data.data.user,
                     guard: 'user'
                 }
                 await commit('authSuccess', payload );
@@ -41,6 +42,7 @@ export default {
                 localStorage.setItem('token', response.data.data.access_token);
                 const payload = {
                     token: response.data.data.access_token,
+                    user: response.data.data.user,
                     guard: 'company'
                 }
                 await commit('authSuccess', payload );
@@ -66,6 +68,7 @@ export default {
                 localStorage.setItem('token', response.data.data.access_token);
                 const payload = {
                     token: response.data.data.access_token,
+                    user: response.data.data.user,
                     guard: 'employee'
                 }
                 await commit('authSuccess', payload );
