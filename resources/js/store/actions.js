@@ -111,5 +111,23 @@ export default {
         catch (error) {
             commit('authError')
         }
+    },
+
+    getEmployeeAction: async ({commit}, currentPage) => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios({
+                'method': 'get',
+                'url': '/api/v1/employees?page='+ currentPage,
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (response.data.message === 'success') {
+                await commit('setEmployee', response.data.data);
+            }
+        }
+        catch (error) {
+            commit('authError')
+        }
     }
 }

@@ -6,6 +6,7 @@ use App\Models\Employee;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,8 +17,19 @@ class EmployeeController extends Controller
     public function index()
     {
         try {
-            $employee = Employee::paginate(5);
-            return  $this->successResponse('success', $employee);
+            if (Auth::guard('api')->check()) {
+                $employee = Employee::with('company')->paginate(5);
+                return  $this->successResponse('success', $employee);
+            }
+
+            if (Auth::guard('company')->check()) {
+                $employee = Employee::with('company')
+                    ->where('company_id', auth('company')->user()->id)
+                    ->paginate(5);
+                return  $this->successResponse('success', $employee);
+            }
+
+            return $this->forbiddenRequestAlert('Insufficient Permission');
         }
         catch (\Exception $exception) {
             return $this->serverErrorAlert('error', $exception);

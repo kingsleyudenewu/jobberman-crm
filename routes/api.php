@@ -23,7 +23,7 @@ Route::group(['prefix' => 'v1'],function(){
     Route::group(['prefix' => 'companies'], function(){
         Route::post('/auth/login', 'AuthController@companyLogin')->name('company.login');
         Route::group(['middleware' => ['auth:company', 'scopes:company']], function () {
-            Route::get('/{company}', 'CompanyController@show')->name('company.show');
+//            Route::get('/{company}', 'CompanyController@show')->name('company.show');
             Route::get('/{company}/employees', 'CompanyController@viewEmployees')->name('company.employees');
         });
 
@@ -31,11 +31,9 @@ Route::group(['prefix' => 'v1'],function(){
 
     Route::group(['prefix' => 'employees'], function(){
         Route::post('/auth/login', 'AuthController@employeeLogin')->name('employee.login');
-//        Route::group(['middleware' => ['auth:employee','scope:employee']], function () {
-//
-//        });
     });
 
-    Route::get('/companies', 'CompanyController@index')->name('admin.company.index');
+    Route::get('/companies', 'CompanyController@index')->name('company.index')->middleware(['auth:company', 'auth:api']);
+    Route::get('/employees', 'EmployeeController@index')->name('employee.index')->middleware(['auth:company', 'auth:api']);
     Route::get('/logout', 'AuthController@logout')->name('logout')->middleware(['auth:company', 'auth:api', 'auth:employee']);
 });

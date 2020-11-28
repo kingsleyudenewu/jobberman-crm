@@ -3,4 +3,5 @@ export default {
     getGuard: state => state.guard,
     getToken: state => state.token,
     getCompany: state => state.company,
+    getEmployee: state => state.employee,
 }

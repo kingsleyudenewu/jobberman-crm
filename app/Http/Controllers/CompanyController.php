@@ -9,6 +9,7 @@ use App\Traits\UploadTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -24,6 +25,7 @@ class CompanyController extends Controller
         try {
             $companies = Company::select('name', 'email', 'url')->paginate(5);
             return $this->successResponse('success', $companies);
+
         }
         catch (\Exception $exception) {
             return $this->serverErrorAlert('error', $exception);
