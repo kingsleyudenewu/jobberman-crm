@@ -8,34 +8,36 @@
         </div>
         <div class="card-body">
           <div class="table-responsive col-6">
-            <b-form @submit="updateProfile">
-              <b-form-group
-                  id="input-group-1"
-                  value="kkk"
-                  label="Email address:"
-                  label-for="input-1"
-                  description="We'll never share your email with anyone else."
-              >
-                <b-form-input
-                    id="input-1"
-                    v-model="form.email"
-                    type="email"
-                    required
-                    placeholder="Enter email"
-                ></b-form-input>
-              </b-form-group>
-
-              <b-form-group id="input-group-2" label="Your Name:" label-for="input-2">
-                <b-form-input
-                    id="input-2"
-                    v-model="form.name"
-                    required
-                    placeholder="Enter name"
-                ></b-form-input>
-              </b-form-group>
-              <b-button type="submit" variant="primary">Submit</b-button>
-              <b-button type="reset" variant="danger">Reset</b-button>
-            </b-form>
+            <form @submit.prevent="updateProfile">
+              <div class="form-group">
+                <label class="small mb-1" for="email">Name</label>
+                <input class="form-control py-4"
+                       id="name"
+                       value="user.name"
+                       v-model="formData.name"
+                       type="text"
+                       placeholder="Enter your name"/>
+              </div>
+              <div class="form-group">
+                <label class="small mb-1" for="email">Email</label>
+                <input class="form-control py-4"
+                       id="email"
+                       v-model="formData.email"
+                       type="email" placeholder="Enter email address"/>
+              </div>
+              <div class="form-group">
+                <label class="small mb-1" for="password">Password</label>
+                <input class="form-control py-4"
+                       id="password"
+                       v-model="formData.password"
+                       type="password" placeholder="Enter password"/>
+              </div>
+              <div
+                  class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                <button type="submit" class="btn btn-primary">Login
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -50,7 +52,7 @@ export default {
   name: "Profile",
   data() {
     return {
-      form: {
+      formData: {
         name: '',
         email: '',
         password: '',
@@ -59,13 +61,13 @@ export default {
   },
   methods: {
     ...mapActions([
-      'updateProfile'
+      'updateProfile',
+      'fetchProfile'
     ]),
     async updateProfile() {
-      try{
-        await this.updateProfile(this.form, this.token);
-      }
-      catch (error) {
+      try {
+        await this.updateProfile(this.formData, this.$store.state.token);
+      } catch (error) {
         console.log(error);
       }
     }
@@ -75,6 +77,9 @@ export default {
       user: 'getUser',
       token: 'getToken'
     })
+  },
+  created() {
+    this.fetchProfile(this.$store.state.token)
   }
 }
 </script>

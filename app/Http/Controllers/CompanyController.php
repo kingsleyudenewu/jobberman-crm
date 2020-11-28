@@ -40,7 +40,7 @@ class CompanyController extends Controller
     {
         try {
             if (is_null($company)) {
-                return  $this->notFoundAlert('Company not found');
+                return  $this->notFoundAlert('User not found');
             }
             return  $this->successResponse('success', $company);
         }

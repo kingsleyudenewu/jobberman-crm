@@ -132,6 +132,16 @@ export default {
             commit('authError')
         }
     },
+    fetchProfile: async ({commit}, token) => {
+        const response = await axios({
+            'method':'post',
+            'url':'/api/v1/profile',
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        if (response.data.message === 'success') {
+            await commit('setUser', response.data.data);
+        }
+    },
     updateProfile: async ({commit}, {name, email, password}, token) => {
         try{
             const response = await axios({
