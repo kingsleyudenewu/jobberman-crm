@@ -79,7 +79,7 @@ export default {
         }
     },
 
-    logOutAction: async ({commit}) => {
+    logOutAction: async ({commit}, token) => {
         try {
             const token = localStorage.getItem('token');
             const response = await axios({
@@ -129,13 +129,24 @@ export default {
             }
         }
         catch (error) {
-            commit('authError')
+            commit('authError');
         }
     },
-    fetchProfile: async ({commit}, token) => {
+    fetchProfile: async ({commit}, token, guard) => {
+        let url = '';
+        if (guard === 'user') {
+            url = '/api/v1/users/profile';
+        }
+        if (guard === 'employee') {
+            url = '/api/v1/employees/profile';
+        }
+        if (guard === 'company') {
+            url = '/api/v1/companies/profile';
+        }
+
         const response = await axios({
-            'method':'post',
-            'url':'/api/v1/profile',
+            'method':'get',
+            'url':url,
             headers: { Authorization: `Bearer ${token}` }
         });
         if (response.data.message === 'success') {
@@ -144,9 +155,20 @@ export default {
     },
     updateProfile: async ({commit}, {name, email, password}, token) => {
         try{
+            let url = '';
+            if (guard === 'user') {
+                url = '/api/v1/users/profile';
+            }
+            if (guard === 'employee') {
+                url = '/api/v1/employees/profile';
+            }
+            if (guard === 'company') {
+                url = '/api/v1/companies/profile';
+            }
+
             const response = await axios({
                 'method': 'post',
-                'url': '/api/v1/profile/update',
+                'url': url,
                 headers: { Authorization: `Bearer ${token}` }
             });
 

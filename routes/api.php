@@ -19,6 +19,7 @@ Route::group(['prefix' => 'v1'],function(){
         Route::post('/auth/login', 'AuthController@adminLogin')->name('admin.login');
         Route::group(['middleware' => ['auth:api', 'scopes:user']], function () {
             Route::get('/profile', 'AdminController@index')->name('admin.profile.index');
+            Route::post('/profile/update', 'AdminController@update')->name('admin.profile.update');
         });
     });
 
@@ -26,6 +27,7 @@ Route::group(['prefix' => 'v1'],function(){
         Route::post('/auth/login', 'AuthController@companyLogin')->name('company.login');
         Route::group(['middleware' => ['auth:company', 'scopes:company']], function () {
             Route::get('/profile', 'CompanyController@show')->name('company.profile.show');
+            Route::post('/profile/update/{company}', 'CompanyController@update')->name('company.profile.update');
         });
 
     });
@@ -34,12 +36,12 @@ Route::group(['prefix' => 'v1'],function(){
         Route::post('/auth/login', 'AuthController@employeeLogin')->name('employee.login');
         Route::group(['middleware' => ['auth:company', 'scopes:employee']], function () {
             Route::get('/profile', 'EmployeeController@show')->name('employee.profile.show');
+            Route::post('/profile/update/{employee}', 'EmployeeController@update')->name('employee.profile.update');
         });
 
     });
 
     Route::get('/companies', 'CompanyController@index')->name('company.index')->middleware(['auth:api']);
     Route::get('/employees', 'EmployeeController@index')->name('employee.index');
-
     Route::get('/logout', 'AuthController@logout')->name('logout');
 });

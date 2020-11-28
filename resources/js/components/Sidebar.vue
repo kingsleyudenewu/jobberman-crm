@@ -49,7 +49,7 @@ export default {
           await this.$router.push({name:"Login"})
         }
         else if (this.$store.getters.getGuard === 'company') {
-          await this.logOutAction();
+          await this.logOutAction(this.getToken);
           await this.$router.push({name:"CompanyLogin"})
         }
         else {
@@ -67,7 +67,8 @@ export default {
     ...mapGetters([
         'isAuthenticated',
         'getGuard',
-        'getUser'
+        'getUser',
+        'getToken'
     ])
   }
 }

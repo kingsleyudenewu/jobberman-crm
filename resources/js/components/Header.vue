@@ -48,7 +48,7 @@ export default {
           await this.$router.push({name:"CompanyLogin"})
         }
         else {
-          await this.logOutAction();
+          await this.logOutAction(this.getToken);
           await this.$router.push({name:"EmployeeLogin"})
         }
       }
@@ -59,7 +59,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-        'getGuard'
+        'getGuard',
+        'getToken'
     ])
   }
 

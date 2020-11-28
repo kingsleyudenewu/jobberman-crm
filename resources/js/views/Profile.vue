@@ -79,7 +79,8 @@ export default {
     })
   },
   created() {
-    this.fetchProfile(this.$store.state.token)
+    this.formData.name = this.$store.state.user.name;
+    this.formData.email = this.$store.state.user.email;
   }
 }
 </script>
