@@ -20,7 +20,7 @@
             Company
           </router-link>
 
-          <a @click="logOut" class="nav-link">
+          <a @click="logOut" class="nav-link" href="javascript:void(0);">
             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
             LogOut
           </a>
