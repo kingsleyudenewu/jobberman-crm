@@ -33,7 +33,7 @@ Route::group(['prefix' => 'v1'],function(){
         Route::post('/auth/login', 'AuthController@employeeLogin')->name('employee.login');
     });
 
-    Route::get('/companies', 'CompanyController@index')->name('company.index')->middleware(['auth:company', 'auth:api']);
-    Route::get('/employees', 'EmployeeController@index')->name('employee.index')->middleware(['auth:company', 'auth:api']);
+    Route::get('/companies', 'CompanyController@index')->name('company.index')->middleware(['auth:api']);
+    Route::get('/employees', 'EmployeeController@index')->name('employee.index');
     Route::get('/logout', 'AuthController@logout')->name('logout')->middleware(['auth:company', 'auth:api', 'auth:employee']);
 });

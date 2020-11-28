@@ -5,14 +5,14 @@
       <tr>
         <th>Name</th>
         <th>Email</th>
-        <th>Company</th>
+        <th v-if="getGuard === 'user'">Company</th>
       </tr>
       </thead>
       <tbody>
       <tr v-for="employee in getEmployee.data">
         <td>{{ employee.name }}</td>
         <td>{{ employee.email }}</td>
-        <td>{{ employee.company.name }}</td>
+        <td v-if="getGuard === 'user'">{{ employee.company.name }}</td>
       </tr>
       </tbody>
     </table>
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex';
+import {mapActions, mapGetters} from 'vuex';
 import pagination from 'laravel-vue-pagination';
 
 
@@ -32,13 +32,12 @@ export default {
   },
   data() {
     return {
-      offset: 4,
-      pagination: {}
     }
   },
   computed: {
     ...mapGetters([
-      'getEmployee'
+      'getEmployee',
+      'getGuard'
     ])
   },
   methods: {

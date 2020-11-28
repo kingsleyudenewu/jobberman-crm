@@ -32,8 +32,6 @@ export default {
   },
   data() {
     return {
-      offset: 4,
-      pagination: {}
     }
   },
   computed: {
