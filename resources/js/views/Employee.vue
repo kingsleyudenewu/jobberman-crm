@@ -1,22 +1,33 @@
 <template>
-  <div class="m-5">
-    <table class="table">
-      <thead>
-      <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th v-if="getGuard === 'user'">Company</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="employee in getEmployee.data">
-        <td>{{ employee.name }}</td>
-        <td>{{ employee.email }}</td>
-        <td v-if="getGuard === 'user'">{{ employee.company.name }}</td>
-      </tr>
-      </tbody>
-    </table>
-    <pagination :data="getEmployee" @pagination-change-page="getEmployeeAction"></pagination>
+  <div class="m-2">
+    <div class="card mb-4">
+      <div class="card-header">
+        <i class="fas fa-table mr-1"></i>
+        DataTable Example
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th v-if="getGuard === 'user'">Company</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="employee in getEmployee.data">
+              <td>{{ employee.name }}</td>
+              <td>{{ employee.email }}</td>
+              <td v-if="getGuard === 'user'">{{ employee.company.name }}</td>
+            </tr>
+            </tbody>
+          </table>
+          <pagination :data="getEmployee" @pagination-change-page="getEmployeeAction"></pagination>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -31,8 +42,7 @@ export default {
     pagination
   },
   data() {
-    return {
-    }
+    return {}
   },
   computed: {
     ...mapGetters([

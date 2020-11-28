@@ -35,5 +35,5 @@ Route::group(['prefix' => 'v1'],function(){
 
     Route::get('/companies', 'CompanyController@index')->name('company.index')->middleware(['auth:api']);
     Route::get('/employees', 'EmployeeController@index')->name('employee.index');
-    Route::get('/logout', 'AuthController@logout')->name('logout')->middleware(['auth:company', 'auth:api', 'auth:employee']);
+    Route::get('/logout', 'AuthController@logout')->name('logout');
 });
