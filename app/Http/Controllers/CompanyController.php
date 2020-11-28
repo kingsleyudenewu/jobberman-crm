@@ -22,8 +22,19 @@ class CompanyController extends Controller
     public function index(): JsonResponse
     {
         try {
-            $companies = Company::paginate(5);
-            return $this->successResponse('success', $companies);
+            $companies = Company::select('name', 'email', 'url')->paginate(5);
+            $response = [
+                'pagination' => [
+                    'total' => $companies->total(),
+                    'per_page' => $companies->perPage(),
+                    'current_page' => $companies->currentPage(),
+                    'last_page' => $companies->lastPage(),
+                    'from' => $companies->firstItem(),
+                    'to' => $companies->lastItem(),
+                ],
+                'data' => $companies
+            ];
+            return $this->successResponse('success', $response);
         }
         catch (\Exception $exception) {
             return $this->serverErrorAlert('error', $exception);

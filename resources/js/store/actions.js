@@ -13,6 +13,7 @@ export default {
             });
 
             if (response.data.message === 'success') {
+                localStorage.setItem('token', response.data.data.access_token);
                 const payload = {
                     token: response.data.data.access_token,
                     guard: 'user'
@@ -37,6 +38,7 @@ export default {
             });
 
             if (response.data.message === 'success') {
+                localStorage.setItem('token', response.data.data.access_token);
                 const payload = {
                     token: response.data.data.access_token,
                     guard: 'company'
@@ -61,6 +63,7 @@ export default {
             });
 
             if (response.data.message === 'success') {
+                localStorage.setItem('token', response.data.data.access_token);
                 const payload = {
                     token: response.data.data.access_token,
                     guard: 'employee'
@@ -75,13 +78,34 @@ export default {
 
     logOutAction: async ({commit}) => {
         try {
+            const token = localStorage.getItem('token');
             const response = await axios({
                 'method': 'get',
-                'url': '/api/v1/logout'
+                'url': '/api/v1/logout',
+                headers: { Authorization: `Bearer ${token}` }
             });
 
             if (response.data.message === 'success') {
                 await commit('authLogOut');
+                localStorage.removeItem('token');
+            }
+        }
+        catch (error) {
+            commit('authError')
+        }
+    },
+
+    getCompanyAction: async ({commit}) => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios({
+                'method': 'get',
+                'url': '/api/v1/companies',
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (response.data.message === 'success') {
+                await commit('setCompany', response.data.data);
             }
         }
         catch (error) {

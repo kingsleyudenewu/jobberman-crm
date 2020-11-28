@@ -20,7 +20,7 @@
             Company
           </router-link>
 
-          <a href="#" @click="logOut" class="nav-link">
+          <a @click="logOut" class="nav-link">
             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
             LogOut
           </a>
@@ -45,17 +45,14 @@ export default {
     async logOut() {
       try {
         if (this.$store.getters.getGuard === 'user') {
-          // await this.$store.dispatch('logOutAction')
           await this.logOutAction();
-          await this.$router.push({name:"Dashboard"})
+          await this.$router.push({name:"Login"})
         }
         else if (this.$store.getters.getGuard === 'company') {
-          // await this.$store.dispatch('logOutAction')
           await this.logOutAction();
           await this.$router.push({name:"CompanyLogin"})
         }
         else {
-          // await this.$store.dispatch('logOutAction')
           await this.logOutAction();
           await this.$router.push({name:"EmployeeLogin"})
         }

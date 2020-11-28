@@ -14,5 +14,8 @@ export default {
         state.isLoggedIn = false;
         state.token = null;
         state.guard = null;
+    },
+    setCompany: (state, company) => {
+        state.company = company;
     }
 }

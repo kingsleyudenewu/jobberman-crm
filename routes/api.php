@@ -17,12 +17,12 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'v1'],function(){
     Route::group(['prefix' => 'users'],function(){
         Route::post('/auth/login', 'AuthController@adminLogin')->name('admin.login');
+
     });
 
     Route::group(['prefix' => 'companies'], function(){
         Route::post('/auth/login', 'AuthController@companyLogin')->name('company.login');
         Route::group(['middleware' => ['auth:company', 'scopes:company']], function () {
-            Route::get('/', 'CompanyController@index')->name('company.index');
             Route::get('/{company}', 'CompanyController@show')->name('company.show');
             Route::get('/{company}/employees', 'CompanyController@viewEmployees')->name('company.employees');
         });
@@ -36,5 +36,6 @@ Route::group(['prefix' => 'v1'],function(){
 //        });
     });
 
+    Route::get('/companies', 'CompanyController@index')->name('admin.company.index');
     Route::get('/logout', 'AuthController@logout')->name('logout')->middleware(['auth:company', 'auth:api', 'auth:employee']);
 });

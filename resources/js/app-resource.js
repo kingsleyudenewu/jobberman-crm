@@ -11,7 +11,6 @@ import BootstrapVue from 'bootstrap-vue';
 
 Vue.use(BootstrapVue);
 Vue.use(VueAxios, axios);
-axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
 axios.defaults.withCredentials = true
 
 new Vue({
