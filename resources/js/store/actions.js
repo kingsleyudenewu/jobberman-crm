@@ -200,7 +200,7 @@ export default {
             console.log(error);
         }
     },
-    createEmployeeAction: async ({commit, state}, {name, email, password, company_id}) => {
+    createEmployeeAction: async ({dispatch, state}, {name, email, password, company_id}) => {
         try{
             const response = await axios({
                 'method': 'post',
@@ -214,21 +214,20 @@ export default {
                 }
             });
             if (response.data.statusCode === 201) {
-                await commit('setUser', response.data.data);
+                await dispatch('getEmployeeAction');
             }
         }
         catch (error) {
             console.log(error);
         }
     },
-    createCompanyAction: async ({commit, state}, {name, email, password, logo}) => {
+    createCompanyAction: async ({dispatch, state}, {name, email, password, logo}) => {
         try{
             const response = await axios({
                 'method': 'post',
                 'url': '/api/v1/company/save',
                 headers: {
-                    Authorization: `Bearer ${state.token}`,
-                    'Content-Type': 'multipart/form-data'
+                    Authorization: `Bearer ${state.token}`
                 },
                 data: {
                     name: name,
@@ -238,7 +237,7 @@ export default {
                 }
             });
             if (response.data.statusCode === 201) {
-                await commit('setUser', response.data.data);
+                return true;
             }
         }
         catch (error) {

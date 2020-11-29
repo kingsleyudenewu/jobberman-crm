@@ -88,6 +88,7 @@ class CompanyController extends Controller
             "name" => "required",
             "email" => "required|email",
             "password" => "required",
+            "url" => "required",
             "logo" => "required|mimes:jpg,jpeg,png|max:1000",
         ]);
         if ($validator->fails()) {
@@ -96,7 +97,7 @@ class CompanyController extends Controller
 
         DB::beginTransaction();
         try {
-            $imagePath = $this->uploadFile($request->file('image'), 'category');
+            $imagePath = $this->uploadFile($request->file('logo'), 'company');
             if (! $imagePath) {
                 return  $this->badRequestAlert( 'Image upload failed');
             }
@@ -106,6 +107,7 @@ class CompanyController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => $request->password,
+                'url' => $request->url,
             ]);
 
             DB::commit();

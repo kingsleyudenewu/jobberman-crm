@@ -11,6 +11,9 @@
       </div>
       <div class="card-body">
         <div class="table-responsive">
+          <div class="alert alert-success" v-if="showSuccess">
+            <span>Operation Successful</span>
+          </div>
 
           <table class="table">
             <thead>
@@ -37,7 +40,7 @@
                 <input class="form-control py-4"
                        id="name"
                        v-model="formData.name"
-                       type="email" placeholder="Enter full name"/>
+                       type="text" placeholder="Enter full name"/>
               </div>
               <div class="form-group">
                 <label class="small mb-1" for="email">Email</label>
@@ -95,7 +98,8 @@ export default {
         password: '',
         company_id: ''
       },
-      allCompany: []
+      allCompany: [],
+      showSuccess: false
     }
   },
   computed: {
@@ -113,7 +117,7 @@ export default {
     async createEmployee() {
       try {
         await this.createEmployeeAction(this.formData);
-
+        location.reload();
       } catch (error) {
         console.log(error);
       }

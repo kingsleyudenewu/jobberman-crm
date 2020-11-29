@@ -13,10 +13,8 @@ class Company extends Authenticatable
 {
     use HasFactory, Notifiable, HasApiTokens;
 
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
+    protected $guarded = [
+        'id'
     ];
 
     /**
