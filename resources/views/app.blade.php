@@ -21,9 +21,9 @@
         }
     </style>
 
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('css/app.css') }}">
 {{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>--}}
-    <script src="{{ asset('js/font_awesome.min.js') }}"></script>
+    <script src="{{ secure_asset('js/font_awesome.min.js') }}"></script>
 
 
 </head>
@@ -31,6 +31,6 @@
     <div id="app">
 
     </div>
-<script src="{{ asset('js/app-resource.js') }}"></script>
+<script src="{{ secure_asset('js/app-resource.js') }}"></script>
 </body>
 </html>
