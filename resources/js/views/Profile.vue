@@ -87,7 +87,7 @@ export default {
         await this.updateProfileAction(this.formData);
         this.showSuccess = true;
       } catch (error) {
-        this.showError = true;
+        console.log(error);
       }
     }
   },

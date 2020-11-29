@@ -116,13 +116,15 @@ class CompanyController extends Controller
 
         DB::beginTransaction();
         try {
-            $company->update([
+            $user = Company::updateOrCreate([
+                'id' => auth('company')->user()->id
+            ],[
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => $request->password,
             ]);
             DB::commit();
-            return $this->createdResponse('Employee updated successfully');
+            return $this->createdResponse('Employee updated successfully', $user);
         }
         catch (\Exception $exception) {
             DB::rollBack();

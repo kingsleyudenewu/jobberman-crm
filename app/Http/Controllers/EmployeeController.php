@@ -93,13 +93,16 @@ class EmployeeController extends Controller
             if ($employee->id !== auth()->user()->id) {
                 return  $this->badRequestAlert('Sorry you cannot update another users profile');
             }
-            $employee->update([
+
+            $user = Employee::updateOrCreate([
+                'id' => auth('employee')->user()->id
+            ],[
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => $request->password,
             ]);
             DB::commit();
-            return $this->createdResponse('Employee updated successfully');
+            return $this->createdResponse('Employee updated successfully', $user);
         }
         catch (\Exception $exception) {
             DB::rollBack();
