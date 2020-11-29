@@ -33,6 +33,20 @@ class CompanyController extends Controller
     }
 
     /**
+     * @return JsonResponse
+     */
+    public function all (): JsonResponse
+    {
+        try {
+            $company = Company::all();
+            return $this->successResponse('success', $company);
+        }
+        catch (\Exception $exception) {
+            return $this->serverErrorAlert('error', $exception);
+        }
+    }
+
+    /**
      * @param Company $company
      * @return JsonResponse
      */

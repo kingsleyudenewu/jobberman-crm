@@ -1,12 +1,17 @@
 <template>
   <div class="m-2">
+
     <div class="card mb-4">
       <div class="card-header">
+        <b-button v-if="getGuard === 'user'" v-b-modal="'my-modal'" class="float-right">Add
+          Employee
+        </b-button>
         <i class="fas fa-table mr-1"></i>
         DataTable Example
       </div>
       <div class="card-body">
         <div class="table-responsive">
+
           <table class="table">
             <thead>
             <tr>
@@ -24,6 +29,47 @@
             </tbody>
           </table>
           <pagination :data="getEmployee" @pagination-change-page="getEmployeeAction"></pagination>
+
+          <b-modal id="my-modal">
+            <form @submit.prevent="login">
+              <div class="form-group">
+                <label class="small mb-1" for="email">Name</label>
+                <input class="form-control py-4"
+                       id="name"
+                       v-model="formData.name"
+                       type="email" placeholder="Enter full name"/>
+              </div>
+              <div class="form-group">
+                <label class="small mb-1" for="email">Email</label>
+                <input class="form-control py-4"
+                       id="email"
+                       v-model="formData.email"
+                       type="email" placeholder="Enter email address"/>
+              </div>
+              <div class="form-group">
+                <label class="small mb-1" for="password">Password</label>
+                <input class="form-control py-4"
+                       id="password"
+                       v-model="formData.password"
+                       type="password" placeholder="Enter password"/>
+              </div>
+
+              <div class="form-group">
+                <label class="small mb-1" for="company_id">Company</label>
+                <select v-model="formData.company_id" id="company_id" class="form-control">
+                  <option v-for="(company, index) in allCompany"
+                          :key="index"
+                          :value="company.id">{{ company.name }}
+                  </option>
+                </select>
+              </div>
+              <div
+                  class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                <button type="submit" class="btn btn-primary">Login
+                </button>
+              </div>
+            </form>
+          </b-modal>
         </div>
       </div>
     </div>
@@ -42,21 +88,32 @@ export default {
     pagination
   },
   data() {
-    return {}
+    return {
+      formData: {
+        name: '',
+        email: '',
+        password: '',
+        company_id:''
+      },
+      allCompany: []
+    }
   },
   computed: {
     ...mapGetters([
       'getEmployee',
-      'getGuard'
+      'getGuard',
+      'getAllCompany'
     ])
   },
   methods: {
     ...mapActions([
       "getEmployeeAction",
+      "getAllCompanyAction"
     ])
   },
   created() {
-    this.getEmployeeAction(this.$store.state.pagination.currentPage)
+    this.getEmployeeAction(this.$store.state.pagination.currentPage);
+    this.allCompany = this.getAllCompanyAction();
   },
 }
 </script>

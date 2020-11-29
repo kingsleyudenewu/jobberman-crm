@@ -21,6 +21,9 @@ export default {
     setCompany: (state, company) => {
         state.company = company;
     },
+    setAllCompany: (state, company) => {
+        state.allCompany = company;
+    },
     setEmployee: (state, employee) => {
         state.employee = employee;
     },

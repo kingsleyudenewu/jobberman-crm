@@ -4,6 +4,7 @@ export default {
     guard: null,
     user: null,
     company: [],
+    allCompany: [],
     employee: [],
     pagination: {
         currentPage: 1,

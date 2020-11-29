@@ -97,7 +97,22 @@ export default {
             commit('authError')
         }
     },
+    getAllCompanyAction: async ({commit, state}) => {
+        try{
+            const response = await axios({
+                'method': 'get',
+                'url': '/api/v1/companies/all',
+                headers: { Authorization: `Bearer ${state.token}` }
+            });
 
+            if (response.data.message === 'success') {
+                await commit('setAllCompany', response.data.data);
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
+    },
     getCompanyAction: async ({commit}, currentPage) => {
         try {
             const token = localStorage.getItem('token');
