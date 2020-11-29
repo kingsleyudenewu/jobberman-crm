@@ -45,7 +45,7 @@ export default {
     async logOut() {
       try {
         if (this.$store.getters.getGuard === 'user') {
-          await this.logOutAction();
+          await this.logOutAction(this.getToken);
           await this.$router.push({name:"Login"})
         }
         else if (this.$store.getters.getGuard === 'company') {
@@ -53,7 +53,7 @@ export default {
           await this.$router.push({name:"CompanyLogin"})
         }
         else {
-          await this.logOutAction();
+          await this.logOutAction(this.getToken);
           await this.$router.push({name:"EmployeeLogin"})
         }
 

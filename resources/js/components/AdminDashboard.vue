@@ -38,12 +38,56 @@
       </div>
     </div>
   </div>
+  <div>
+    <div class="card mb-4">
+      <div class="card-header">
+        <i class="fas fa-table mr-1"></i>
+        Company Records
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Url</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="comp in company.data">
+              <td>{{ comp.name }}</td>
+              <td>{{ comp.email }}</td>
+              <td>{{ comp.url }}</td>
+            </tr>
+            </tbody>
+          </table>
+          <pagination :data="company" @pagination-change-page="getCompanyAction"></pagination>
+
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 </template>
 
 <script>
+import {mapActions} from 'vuex';
+import pagination from 'laravel-vue-pagination';
+
 export default {
-  name: "AdminDashboard"
+  name: "AdminDashboard",
+  components: {
+    pagination
+  },
+  props: {
+    company: Object,
+  },
+  methods: {
+    ...mapActions([
+        'getCompanyAction'
+    ])
+  }
 }
 </script>
 

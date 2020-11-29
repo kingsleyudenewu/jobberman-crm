@@ -39,14 +39,16 @@ class AdminController extends Controller
 
         DB::beginTransaction();
         try {
-            User::find(auth()->user()->id)->update([
+            $user = User::updateOrCreate([
+                'id' => auth()->user()->id
+            ],[
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => $request->password,
             ]);
 
             DB::commit();
-            return $this->createdResponse('Employee updated successfully');
+            return $this->createdResponse('Employee updated successfully', $user);
         }
         catch (\Exception $exception) {
             return $this->serverErrorAlert('error');

@@ -93,7 +93,6 @@ export default {
         await this.loginAction(this.formData);
         this.showError = false;
         await this.$router.push({name: "Dashboard"});
-
       } catch (error) {
         this.showError = true;
       }

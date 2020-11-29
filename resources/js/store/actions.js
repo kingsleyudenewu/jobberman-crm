@@ -81,7 +81,7 @@ export default {
 
     logOutAction: async ({commit}, token) => {
         try {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('token') ?? token;
             const response = await axios({
                 'method': 'get',
                 'url': '/api/v1/logout',
@@ -153,31 +153,37 @@ export default {
             await commit('setUser', response.data.data);
         }
     },
-    updateProfile: async ({commit}, {name, email, password}, token) => {
+    updateProfileAction: async ({commit, state}, {name, email, password}) => {
         try{
             let url = '';
-            if (guard === 'user') {
-                url = '/api/v1/users/profile';
+            if (state.guard === 'user') {
+                url = '/api/v1/users/profile/update';
             }
-            if (guard === 'employee') {
-                url = '/api/v1/employees/profile';
+            if (state.guard === 'employee') {
+                url = '/api/v1/employees/profile/update/'+state.user.id;
             }
-            if (guard === 'company') {
-                url = '/api/v1/companies/profile';
+            if (state.guard === 'company') {
+                url = '/api/v1/companies/profile/update/'+state.user.id;
             }
 
+            // const token = localStorage.getItem('token');
             const response = await axios({
                 'method': 'post',
                 'url': url,
-                headers: { Authorization: `Bearer ${token}` }
+                headers: { Authorization: `Bearer ${state.token}` },
+                data: {
+                    name: name,
+                    email: email,
+                    password: password
+                }
             });
-
-            if (response.data.message === 'success') {
+            if (response.data.statusCode === 201) {
                 await commit('setUser', response.data.data);
             }
         }
         catch (error) {
-            commit('authError')
+            // commit('authError')
+            console.log(error);
         }
     }
 }

@@ -27,7 +27,6 @@ Route::group(['prefix' => 'v1'],function(){
         Route::post('/auth/login', 'AuthController@companyLogin')->name('company.login');
         Route::group(['middleware' => ['auth:company', 'scopes:company']], function () {
             Route::get('/profile', 'CompanyController@show')->name('company.profile.show');
-            Route::post('/profile/update/{company}', 'CompanyController@update')->name('company.profile.update');
         });
 
     });
@@ -41,7 +40,8 @@ Route::group(['prefix' => 'v1'],function(){
 
     });
 
-    Route::get('/companies', 'CompanyController@index')->name('company.index')->middleware(['auth:api']);
+    Route::get('/companies', 'CompanyController@index')->name('company.index');
+    Route::post('/profile/update/{company}', 'CompanyController@update')->name('company.profile.update')->middleware(['auth:api', 'scopes:user']);
     Route::get('/employees', 'EmployeeController@index')->name('employee.index');
     Route::get('/logout', 'AuthController@logout')->name('logout');
 });

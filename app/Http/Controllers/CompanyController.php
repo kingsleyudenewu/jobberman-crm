@@ -101,6 +101,32 @@ class CompanyController extends Controller
             DB::rollBack();
             return $this->serverErrorAlert('error', $exception);
         }
+    }
 
+    public function update(Request $request, Company $company)
+    {
+        $validator = Validator::make($request->all(), [
+            "name" => "required",
+            "email" => "required|email",
+            "password" => "required",
+        ]);
+        if ($validator->fails()) {
+            return $this->formValidationErrorAlert(Arr::flatten($validator->errors()->toArray()));
+        }
+
+        DB::beginTransaction();
+        try {
+            $company->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => $request->password,
+            ]);
+            DB::commit();
+            return $this->createdResponse('Employee updated successfully');
+        }
+        catch (\Exception $exception) {
+            DB::rollBack();
+            return $this->serverErrorAlert('error', $exception);
+        }
     }
 }

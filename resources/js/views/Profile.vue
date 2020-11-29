@@ -4,40 +4,57 @@
       <div class="card mb-4">
         <div class="card-header">
           <i class="fas fa-table mr-1"></i>
-          {{ user.name }}
+          {{ getUser.name }}
         </div>
         <div class="card-body">
-          <div class="table-responsive col-6">
-            <form @submit.prevent="updateProfile">
-              <div class="form-group">
-                <label class="small mb-1" for="email">Name</label>
-                <input class="form-control py-4"
-                       id="name"
-                       value="user.name"
-                       v-model="formData.name"
-                       type="text"
-                       placeholder="Enter your name"/>
+          <div class="table-responsive">
+            <div class="row">
+              <div class="col-12">
+                <div class="alert alert-danger" v-if="showError">
+                  <span>Operation failed</span>
+                </div>
+
+                <div class="alert alert-success" v-if="showSuccess">
+                  <span>Operation Successful</span>
+                </div>
+
               </div>
-              <div class="form-group">
-                <label class="small mb-1" for="email">Email</label>
-                <input class="form-control py-4"
-                       id="email"
-                       v-model="formData.email"
-                       type="email" placeholder="Enter email address"/>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <form @submit.prevent="updateProfile">
+                  <div class="form-group">
+                    <label class="small mb-1" for="email">Name</label>
+                    <input class="form-control py-4"
+                           id="name"
+                           value="user.name"
+                           v-model="formData.name"
+                           type="text"
+                           placeholder="Enter your name"/>
+                  </div>
+                  <div class="form-group">
+                    <label class="small mb-1" for="email">Email</label>
+                    <input class="form-control py-4"
+                           id="email"
+                           v-model="formData.email"
+                           type="email" placeholder="Enter email address"/>
+                  </div>
+                  <div class="form-group">
+                    <label class="small mb-1" for="password">Password</label>
+                    <input class="form-control py-4"
+                           id="password"
+                           v-model="formData.password"
+                           type="password" placeholder="Enter password"/>
+                  </div>
+                  <div
+                      class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                    <button type="submit" class="btn btn-primary">Update
+                    </button>
+                  </div>
+                </form>
               </div>
-              <div class="form-group">
-                <label class="small mb-1" for="password">Password</label>
-                <input class="form-control py-4"
-                       id="password"
-                       v-model="formData.password"
-                       type="password" placeholder="Enter password"/>
-              </div>
-              <div
-                  class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-                <button type="submit" class="btn btn-primary">Login
-                </button>
-              </div>
-            </form>
+            </div>
+
           </div>
         </div>
       </div>
@@ -56,27 +73,30 @@ export default {
         name: '',
         email: '',
         password: '',
-      }
+      },
+      showError: false,
+      showSuccess: false,
     }
   },
   methods: {
     ...mapActions([
-      'updateProfile',
-      'fetchProfile'
+      'updateProfileAction',
     ]),
     async updateProfile() {
       try {
-        await this.updateProfile(this.formData, this.$store.state.token);
+        await this.updateProfileAction(this.formData);
+        this.showSuccess = true;
       } catch (error) {
-        console.log(error);
+        this.showError = true;
       }
     }
   },
   computed: {
-    ...mapGetters({
-      user: 'getUser',
-      token: 'getToken'
-    })
+    ...mapGetters([
+      'getUser',
+      'getToken',
+      'getGuard'
+    ])
   },
   created() {
     this.formData.name = this.$store.state.user.name;
