@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Employee;
 use App\Traits\ApiResponse;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -48,7 +49,11 @@ class EmployeeController extends Controller
         }
     }
 
-    public function store(Request  $request)
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(Request  $request) : JsonResponse
     {
         $validator = Validator::make($request->all(), [
             "company_id" => "required|exists:companies,id",
@@ -77,7 +82,12 @@ class EmployeeController extends Controller
         }
     }
 
-    public function update(Request  $request, Employee $employee)
+    /**
+     * @param Request $request
+     * @param Employee $employee
+     * @return JsonResponse
+     */
+    public function update(Request  $request, Employee $employee): JsonResponse
     {
         $validator = Validator::make($request->all(), [
             "name" => "required",
@@ -110,7 +120,11 @@ class EmployeeController extends Controller
         }
     }
 
-    public function destroy(Employee  $employee)
+    /**
+     * @param Employee $employee
+     * @return JsonResponse
+     */
+    public function destroy(Employee  $employee): JsonResponse
     {
         try {
             $employee->delete();

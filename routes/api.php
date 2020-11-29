@@ -37,9 +37,10 @@ Route::group(['prefix' => 'v1'],function(){
             Route::get('/profile', 'EmployeeController@show')->name('employee.profile.show');
             Route::post('/profile/update/{employee}', 'EmployeeController@update')->name('employee.profile.update');
         });
-
     });
 
+    Route::post('/employee/save', 'EmployeeController@store')->name('employee.save')->middleware(['auth:api', 'scopes:user']);
+    Route::post('/company/save', 'CompanyController@store')->name('company.save')->middleware(['auth:api', 'scopes:user']);
     Route::get('/companies', 'CompanyController@index')->name('company.index');
     Route::get('/companies/all', 'CompanyController@all')->name('company.all')->middleware(['auth:api']);
     Route::post('/profile/update/{company}', 'CompanyController@update')->name('company.profile.update')->middleware(['auth:api', 'scopes:user']);

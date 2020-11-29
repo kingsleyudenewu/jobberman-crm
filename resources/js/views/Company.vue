@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex';
+import {mapActions, mapGetters} from 'vuex';
 import pagination from 'laravel-vue-pagination';
 
 
@@ -42,6 +42,12 @@ export default {
   },
   data() {
     return {
+      formData: {
+        name: '',
+        email: '',
+        password: '',
+        logo: ''
+      },
     }
   },
   computed: {
@@ -52,7 +58,15 @@ export default {
   methods: {
     ...mapActions([
       "getCompanyAction",
-    ])
+      "createCompanyAction"
+    ]),
+    async createCompany() {
+      this.createCompanyAction();
+    },
+    async handleFileUpload() {
+      this.formData.file = this.$refs.file.files[0];
+    }
+
   },
   created() {
     this.getCompanyAction(this.$store.state.pagination.currentPage)

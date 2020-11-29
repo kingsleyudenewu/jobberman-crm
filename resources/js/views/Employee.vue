@@ -31,7 +31,7 @@
           <pagination :data="getEmployee" @pagination-change-page="getEmployeeAction"></pagination>
 
           <b-modal id="my-modal">
-            <form @submit.prevent="login">
+            <form @submit.prevent="createEmployee">
               <div class="form-group">
                 <label class="small mb-1" for="email">Name</label>
                 <input class="form-control py-4"
@@ -57,9 +57,9 @@
               <div class="form-group">
                 <label class="small mb-1" for="company_id">Company</label>
                 <select v-model="formData.company_id" id="company_id" class="form-control">
-                  <option v-for="(company, index) in allCompany"
-                          :key="index"
-                          :value="company.id">{{ company.name }}
+                  <option value="" disabled>Select a company</option>
+                  <option v-for="jobTitle in allCompany" :value="jobTitle.id" :key="jobTitle.id">
+                    {{ jobTitle.name }}
                   </option>
                 </select>
               </div>
@@ -93,7 +93,7 @@ export default {
         name: '',
         email: '',
         password: '',
-        company_id:''
+        company_id: ''
       },
       allCompany: []
     }
@@ -108,12 +108,21 @@ export default {
   methods: {
     ...mapActions([
       "getEmployeeAction",
-      "getAllCompanyAction"
-    ])
+      "createEmployeeAction"
+    ]),
+    async createEmployee() {
+      try {
+        await this.createEmployeeAction(this.formData);
+
+      } catch (error) {
+        console.log(error);
+      }
+    }
   },
   created() {
     this.getEmployeeAction(this.$store.state.pagination.currentPage);
-    this.allCompany = this.getAllCompanyAction();
+    this.allCompany = this.getAllCompany;
+    console.log(this.getAllCompany);
   },
 }
 </script>

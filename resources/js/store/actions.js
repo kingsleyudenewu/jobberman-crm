@@ -181,7 +181,6 @@ export default {
                 url = '/api/v1/companies/profile/update/'+state.user.id;
             }
 
-            // const token = localStorage.getItem('token');
             const response = await axios({
                 'method': 'post',
                 'url': url,
@@ -200,5 +199,50 @@ export default {
             // commit('authError')
             console.log(error);
         }
-    }
+    },
+    createEmployeeAction: async ({commit, state}, {name, email, password, company_id}) => {
+        try{
+            const response = await axios({
+                'method': 'post',
+                'url': '/api/v1/employee/save',
+                headers: { Authorization: `Bearer ${state.token}` },
+                data: {
+                    name: name,
+                    email: email,
+                    password: password,
+                    company_id: company_id
+                }
+            });
+            if (response.data.statusCode === 201) {
+                await commit('setUser', response.data.data);
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
+    },
+    createCompanyAction: async ({commit, state}, {name, email, password, logo}) => {
+        try{
+            const response = await axios({
+                'method': 'post',
+                'url': '/api/v1/company/save',
+                headers: {
+                    Authorization: `Bearer ${state.token}`,
+                    'Content-Type': 'multipart/form-data'
+                },
+                data: {
+                    name: name,
+                    email: email,
+                    password: password,
+                    logo: logo
+                }
+            });
+            if (response.data.statusCode === 201) {
+                await commit('setUser', response.data.data);
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
+    },
 }
