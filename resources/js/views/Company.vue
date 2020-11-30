@@ -111,20 +111,30 @@ export default {
       "createCompanyAction"
     ]),
     async createCompany() {
-      let form = new FormData();
-      form.append('logo', this.formData.logo);
-      form.append('name', this.formData.name);
-      form.append('email', this.formData.email);
-      form.append('url', this.formData.url);
-      form.append('password', this.formData.password);
-
       console.log(this.formData);
-
       await this.createCompanyAction(this.formData);
       // location.reload();
     },
-    async handleFileUpload() {
-      this.formData.logo = await this.$refs.logo.files[0];
+    async handleFileUpload(e) {
+      const image = e.target.files[0];
+      await this.toBase64(image);
+    },
+    async createBase64Image(fileObject) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.formData.logo = e.target.result;
+      };
+      reader.readAsBinaryString(fileObject);
+    },
+    async toBase64(file){
+      try{
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => this.formData.logo = reader.result;
+      }
+      catch (error) {
+        console.log(error);
+      }
     }
   },
   created() {

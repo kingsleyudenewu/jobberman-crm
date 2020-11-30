@@ -221,19 +221,20 @@ export default {
             console.log(error);
         }
     },
-    createCompanyAction: async ({dispatch, state}, {name, email, password, logo}) => {
+    createCompanyAction: async ({dispatch, state}, {name, email, password, logo, url}) => {
         try{
             const response = await axios({
                 'method': 'post',
                 'url': '/api/v1/company/save',
                 headers: {
-                    Authorization: `Bearer ${state.token}`
+                    Authorization: `Bearer ${state.token}`,
                 },
                 data: {
                     name: name,
                     email: email,
                     password: password,
-                    logo: logo
+                    logo: logo,
+                    url: url,
                 }
             });
             if (response.data.statusCode === 201) {

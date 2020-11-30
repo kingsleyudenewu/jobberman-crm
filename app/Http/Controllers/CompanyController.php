@@ -82,7 +82,7 @@ class CompanyController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function store(Request  $request): JsonResponse
+    public function store(Request  $request)
     {
         $validator = Validator::make($request->all(), [
             "name" => "required",
