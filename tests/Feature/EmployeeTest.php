@@ -9,14 +9,18 @@ use Tests\TestCase;
 class EmployeeTest extends TestCase
 {
     /**
-     * A basic feature test example.
+     * Feature test to fetch all employees
      *
-     * @return void
+     * @group employee_test
      */
-    public function testExample()
+    public function testFetchAllEmployees()
     {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
+        $this->withoutExceptionHandling();
+        $this->json('GET', route('employee.index'), $this->headers)
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                'statusCode' => 200,
+                'message' => 'success'
+            ]);
     }
 }

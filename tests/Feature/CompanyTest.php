@@ -21,20 +21,14 @@ class CompanyTest extends TestCase
     /**
      * @group company_test
      */
-    public function testGetASingleCompany()
+    public function testFetchAllCompanyWithoutPagination()
     {
         $this->withoutExceptionHandling();
-        $company = $this->company->id;
-        $this->json('GET', route('company.show', $company), $this->headers)->assertStatus(200);
-    }
-
-    /**
-     * @group company_test
-     */
-    public function testGetAllEmployees()
-    {
-        $this->withoutExceptionHandling();
-        $company = $this->company->id;
-        $this->json('GET', route('company.employees', $company), $this->headers)->assertStatus(200);
+        $this->json('GET', route('company.all'), $this->headers)
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                'statusCode' => 200,
+                'message' => 'success'
+            ]);
     }
 }
