@@ -21,6 +21,7 @@
               <th>Name</th>
               <th>Email</th>
               <th v-if="getGuard === 'user'">Company</th>
+              <th v-if="getGuard === 'user'">Action</th>
             </tr>
             </thead>
             <tbody>
@@ -28,6 +29,12 @@
               <td>{{ employee.name }}</td>
               <td>{{ employee.email }}</td>
               <td v-if="getGuard === 'user'">{{ employee.company.name }}</td>
+              <td v-if="getGuard === 'user'">
+                <div class="btn-group">
+                  <a href="javascript:void(0);" class="btn btn-danger"
+                     @click="deleteEmployee(employee.id)">Delete</a>
+                </div>
+              </td>
             </tr>
             </tbody>
           </table>
@@ -112,12 +119,26 @@ export default {
   methods: {
     ...mapActions([
       "getEmployeeAction",
-      "createEmployeeAction"
+      "createEmployeeAction",
+      'deleteEmployeeAction'
     ]),
     async createEmployee() {
       try {
         await this.createEmployeeAction(this.formData);
         location.reload();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async deleteEmployee(id) {
+      try {
+        console.log(id);
+        await this.deleteEmployeeAction(id);
+        this.showSuccess = true;
+        setTimeout(() => this.showSuccess = false, 1000);
+        await this.$router.push({name: "Dashboard"});
+
       } catch (error) {
         console.log(error);
       }

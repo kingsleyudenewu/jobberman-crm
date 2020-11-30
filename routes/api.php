@@ -45,5 +45,6 @@ Route::group(['prefix' => 'v1'],function(){
     Route::get('/companies/all', 'CompanyController@all')->name('company.all')->middleware(['auth:api']);
     Route::post('/profile/update/{company}', 'CompanyController@update')->name('company.profile.update')->middleware(['auth:api', 'scopes:user']);
     Route::get('/employees', 'EmployeeController@index')->name('employee.index');
+    Route::delete('/employees/delete/{employee}', 'EmployeeController@destroy')->name('employee.destroy');
     Route::get('/logout', 'AuthController@logout')->name('logout');
 });

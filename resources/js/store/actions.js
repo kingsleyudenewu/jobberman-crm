@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export default {
     loginAction: async ({commit}, {email, password}) => {
-        try{
+        try {
             const response = await axios({
                 'method': 'post',
                 'url': '/api/v1/users/auth/login',
@@ -19,16 +19,15 @@ export default {
                     user: response.data.data.user,
                     guard: 'user'
                 }
-                await commit('authSuccess', payload );
+                await commit('authSuccess', payload);
             }
-        }
-        catch (error){
+        } catch (error) {
             commit('authError')
         }
     },
 
     companyLoginAction: async ({commit}, {email, password}) => {
-        try{
+        try {
             const response = await axios({
                 'method': 'post',
                 'url': '/api/v1/companies/auth/login',
@@ -45,16 +44,15 @@ export default {
                     user: response.data.data.user,
                     guard: 'company'
                 }
-                await commit('authSuccess', payload );
+                await commit('authSuccess', payload);
             }
-        }
-        catch (error){
+        } catch (error) {
             commit('authError')
         }
     },
 
     employeeLoginAction: async ({commit}, {email, password}) => {
-        try{
+        try {
             const response = await axios({
                 'method': 'post',
                 'url': '/api/v1/employees/auth/login',
@@ -71,10 +69,9 @@ export default {
                     user: response.data.data.user,
                     guard: 'employee'
                 }
-                await commit('authSuccess', payload );
+                await commit('authSuccess', payload);
             }
-        }
-        catch (error){
+        } catch (error) {
             commit('authError')
         }
     },
@@ -85,31 +82,29 @@ export default {
             const response = await axios({
                 'method': 'get',
                 'url': '/api/v1/logout',
-                headers: { Authorization: `Bearer ${token}` }
+                headers: {Authorization: `Bearer ${token}`}
             });
 
             if (response.data.message === 'success') {
                 await commit('authLogOut');
                 localStorage.removeItem('token');
             }
-        }
-        catch (error) {
+        } catch (error) {
             commit('authError')
         }
     },
     getAllCompanyAction: async ({commit, state}) => {
-        try{
+        try {
             const response = await axios({
                 'method': 'get',
                 'url': '/api/v1/companies/all',
-                headers: { Authorization: `Bearer ${state.token}` }
+                headers: {Authorization: `Bearer ${state.token}`}
             });
 
             if (response.data.message === 'success') {
                 await commit('setAllCompany', response.data.data);
             }
-        }
-        catch (error) {
+        } catch (error) {
             console.log(error);
         }
     },
@@ -118,15 +113,14 @@ export default {
             const token = localStorage.getItem('token');
             const response = await axios({
                 'method': 'get',
-                'url': '/api/v1/companies?page='+ currentPage,
-                headers: { Authorization: `Bearer ${token}` }
+                'url': '/api/v1/companies?page=' + currentPage,
+                headers: {Authorization: `Bearer ${token}`}
             });
 
             if (response.data.message === 'success') {
                 await commit('setCompany', response.data.data);
             }
-        }
-        catch (error) {
+        } catch (error) {
             commit('authError')
         }
     },
@@ -135,15 +129,14 @@ export default {
             const token = localStorage.getItem('token');
             const response = await axios({
                 'method': 'get',
-                'url': '/api/v1/employees?page='+ currentPage,
-                headers: { Authorization: `Bearer ${token}` }
+                'url': '/api/v1/employees?page=' + currentPage,
+                headers: {Authorization: `Bearer ${token}`}
             });
 
             if (response.data.message === 'success') {
                 await commit('setEmployee', response.data.data);
             }
-        }
-        catch (error) {
+        } catch (error) {
             commit('authError');
         }
     },
@@ -160,31 +153,31 @@ export default {
         }
 
         const response = await axios({
-            'method':'get',
-            'url':url,
-            headers: { Authorization: `Bearer ${token}` }
+            'method': 'get',
+            'url': url,
+            headers: {Authorization: `Bearer ${token}`}
         });
         if (response.data.message === 'success') {
             await commit('setUser', response.data.data);
         }
     },
     updateProfileAction: async ({commit, state}, {name, email, password}) => {
-        try{
+        try {
             let url = '';
             if (state.guard === 'user') {
                 url = '/api/v1/users/profile/update';
             }
             if (state.guard === 'employee') {
-                url = '/api/v1/employees/profile/update/'+state.user.id;
+                url = '/api/v1/employees/profile/update/' + state.user.id;
             }
             if (state.guard === 'company') {
-                url = '/api/v1/companies/profile/update/'+state.user.id;
+                url = '/api/v1/companies/profile/update/' + state.user.id;
             }
 
             const response = await axios({
                 'method': 'post',
                 'url': url,
-                headers: { Authorization: `Bearer ${state.token}` },
+                headers: {Authorization: `Bearer ${state.token}`},
                 data: {
                     name: name,
                     email: email,
@@ -194,18 +187,17 @@ export default {
             if (response.data.statusCode === 201) {
                 await commit('setUser', response.data.data);
             }
-        }
-        catch (error) {
+        } catch (error) {
             // commit('authError')
             console.log(error);
         }
     },
     createEmployeeAction: async ({dispatch, state}, {name, email, password, company_id}) => {
-        try{
+        try {
             const response = await axios({
                 'method': 'post',
                 'url': '/api/v1/employee/save',
-                headers: { Authorization: `Bearer ${state.token}` },
+                headers: {Authorization: `Bearer ${state.token}`},
                 data: {
                     name: name,
                     email: email,
@@ -216,13 +208,12 @@ export default {
             if (response.data.statusCode === 201) {
                 await dispatch('getEmployeeAction');
             }
-        }
-        catch (error) {
+        } catch (error) {
             console.log(error);
         }
     },
-    createCompanyAction: async ({dispatch, state}, {name, email, password, logo, url}) => {
-        try{
+    createCompanyAction: async ({commit, state}, {name, email, password, logo, url}) => {
+        try {
             const response = await axios({
                 'method': 'post',
                 'url': '/api/v1/company/save',
@@ -240,9 +231,22 @@ export default {
             if (response.data.statusCode === 201) {
                 return true;
             }
-        }
-        catch (error) {
+        } catch (error) {
             console.log(error);
         }
     },
+    deleteEmployeeAction: async ({commit, state}, id) => {
+        try {
+             await axios({
+                'method':'delete',
+                'url':'/api/v1/employees/delete/'+ id,
+                headers: {
+                    Authorization: `Bearer ${state.token}`,
+                },
+            });
+        }
+        catch (error) {
+
+        }
+    }
 }
