@@ -21,9 +21,14 @@
         }
     </style>
 
-    <link rel="stylesheet" href="{{ secure_asset('css/app.css') }}">
-{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>--}}
-    <script src="{{ secure_asset('js/font_awesome.min.js') }}"></script>
+    @if(env('APP_ENV') == 'production')
+        <link rel="stylesheet" href="{{ secure_asset('css/app.css') }}">
+        <script src="{{ secure_asset('js/font_awesome.min.js') }}"></script>
+    @else
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <script src="{{ asset('js/font_awesome.min.js') }}"></script>
+    @endif
+
 
 
 </head>
@@ -31,6 +36,11 @@
     <div id="app">
 
     </div>
-<script src="{{ secure_asset('js/app-resource.js') }}"></script>
+    @if(env('APP_ENV') == 'production')
+        <script src="{{ secure_asset('js/app-resource.js') }}"></script>
+    @else
+        <script src="{{ asset('js/app-resource.js') }}"></script>
+    @endif
+
 </body>
 </html>
