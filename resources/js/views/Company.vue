@@ -113,18 +113,11 @@ export default {
     async createCompany() {
       console.log(this.formData);
       await this.createCompanyAction(this.formData);
-      // location.reload();
+      location.reload();
     },
     async handleFileUpload(e) {
       const image = e.target.files[0];
       await this.toBase64(image);
-    },
-    async createBase64Image(fileObject) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.formData.logo = e.target.result;
-      };
-      reader.readAsBinaryString(fileObject);
     },
     async toBase64(file){
       try{
