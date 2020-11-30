@@ -12,6 +12,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class CompanyController extends Controller
 {
@@ -89,7 +90,7 @@ class CompanyController extends Controller
             "email" => "required|email",
             "password" => "required",
             "url" => "required",
-            "logo" => "required|mimes:jpg,jpeg,png|max:1000",
+            "logo" => "required",
         ]);
         if ($validator->fails()) {
             return $this->formValidationErrorAlert(Arr::flatten($validator->errors()->toArray()));
@@ -97,10 +98,12 @@ class CompanyController extends Controller
 
         DB::beginTransaction();
         try {
-            $imagePath = $this->uploadFile($request->file('logo'), 'company');
-            if (! $imagePath) {
-                return  $this->badRequestAlert( 'Image upload failed');
-            }
+            $image = $request->logo;  // your base64 encoded
+            $image = str_replace('data:image/png;base64,', '', $image);
+            $image = str_replace(' ', '+', $image);
+            $imageName = Str::random(10).'.'.'png';
+            $imagePath = \File::put(storage_path('app/public/company'). '/' . $imageName,
+                base64_decode($image));
 
             Company::create([
                 'logo' => $imagePath,
