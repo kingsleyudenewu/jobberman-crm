@@ -137,7 +137,7 @@ export default {
         await this.deleteEmployeeAction(id);
         this.showSuccess = true;
         setTimeout(() => this.showSuccess = false, 1000);
-        await this.$router.push({name: "Dashboard"});
+        await this.$router.push({name: "Employee"});
 
       } catch (error) {
         console.log(error);

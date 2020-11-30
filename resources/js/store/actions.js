@@ -237,16 +237,30 @@ export default {
     },
     deleteEmployeeAction: async ({commit, state}, id) => {
         try {
-             await axios({
-                'method':'delete',
-                'url':'/api/v1/employees/delete/'+ id,
+            await axios({
+                'method': 'delete',
+                'url': '/api/v1/employees/delete/' + id,
                 headers: {
                     Authorization: `Bearer ${state.token}`,
                 },
             });
+        } catch (error) {
+            console.log(error);
         }
-        catch (error) {
+    },
+    deleteCompanyAction: async ({dispatch, state}, id) => {
+        try {
+            await axios({
+                'method': 'delete',
+                'url': '/api/v1/companies/delete/' + id,
+                headers: {
+                    Authorization: `Bearer ${state.token}`,
+                },
+            });
+            dispatch('getCompanyAction', state.pagination.currentPage);
 
+        } catch (error) {
+            console.log(error);
         }
     }
 }

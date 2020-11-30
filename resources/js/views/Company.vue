@@ -10,12 +10,16 @@
       </div>
       <div class="card-body">
         <div class="table-responsive">
+          <div class="alert alert-success" v-if="showSuccess">
+            <span>Operation Successful</span>
+          </div>
           <table class="table">
             <thead>
             <tr>
               <th>Name</th>
               <th>Email</th>
               <th>Url</th>
+              <th>Action</th>
             </tr>
             </thead>
             <tbody>
@@ -23,6 +27,12 @@
               <td>{{ company.name }}</td>
               <td>{{ company.email }}</td>
               <td>{{ company.url }}</td>
+              <td>
+                <div class="btn-group">
+                  <a href="javascript:void(0);" class="btn btn-danger"
+                     @click="deleteCompany(company.id)">Delete</a>
+                </div>
+              </td>
             </tr>
             </tbody>
           </table>
@@ -61,7 +71,8 @@
 
               <div class="form-group">
                 <label class="small mb-1" for="logo">Logo</label>
-                <input type="file" id="logo" ref="logo" class="form-control" @change="handleFileUpload">
+                <input type="file" id="logo" ref="logo" class="form-control"
+                       @change="handleFileUpload">
 
               </div>
               <div
@@ -97,18 +108,20 @@ export default {
         logo: '',
         url: ''
       },
+      showSuccess: false
     }
   },
   computed: {
     ...mapGetters([
       'getCompany',
-        'getGuard'
+      'getGuard'
     ])
   },
   methods: {
     ...mapActions([
       "getCompanyAction",
-      "createCompanyAction"
+      "createCompanyAction",
+      "deleteCompanyAction"
     ]),
     async createCompany() {
       console.log(this.formData);
@@ -119,13 +132,22 @@ export default {
       const image = e.target.files[0];
       await this.toBase64(image);
     },
-    async toBase64(file){
-      try{
+    async toBase64(file) {
+      try {
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = () => this.formData.logo = reader.result;
+      } catch (error) {
+        console.log(error);
       }
-      catch (error) {
+    },
+    async deleteCompany(id) {
+      try {
+        console.log(id);
+        await this.deleteCompanyAction(id);
+        this.showSuccess = true;
+        setTimeout(() => this.showSuccess = false, 1000);
+      } catch (error) {
         console.log(error);
       }
     }

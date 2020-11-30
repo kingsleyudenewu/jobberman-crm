@@ -9,7 +9,6 @@ use App\Traits\UploadTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -24,11 +23,10 @@ class CompanyController extends Controller
     public function index(): JsonResponse
     {
         try {
-            $companies = Company::select('name', 'email', 'url')->paginate(5);
+            $companies = Company::select('id', 'name', 'email', 'url')->paginate(5);
             return $this->successResponse('success', $companies);
 
-        }
-        catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             return $this->serverErrorAlert('error', $exception);
         }
     }
@@ -36,13 +34,12 @@ class CompanyController extends Controller
     /**
      * @return JsonResponse
      */
-    public function all (): JsonResponse
+    public function all(): JsonResponse
     {
         try {
             $company = Company::all();
             return $this->successResponse('success', $company);
-        }
-        catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             return $this->serverErrorAlert('error', $exception);
         }
     }
@@ -51,15 +48,14 @@ class CompanyController extends Controller
      * @param Company $company
      * @return JsonResponse
      */
-    public function show(Company  $company): JsonResponse
+    public function show(Company $company): JsonResponse
     {
         try {
             if (is_null($company)) {
-                return  $this->notFoundAlert('User not found');
+                return $this->notFoundAlert('User not found');
             }
-            return  $this->successResponse('success', $company);
-        }
-        catch (\Exception $exception) {
+            return $this->successResponse('success', $company);
+        } catch (\Exception $exception) {
             return $this->serverErrorAlert('error', $exception);
         }
     }
@@ -68,13 +64,12 @@ class CompanyController extends Controller
      * @param Company $company
      * @return \Illuminate\Http\JsonResponse
      */
-    public function viewEmployees(Company $company) : JsonResponse
+    public function viewEmployees(Company $company): JsonResponse
     {
         try {
             $employees = Employee::where('company_id', $company->id)->get();
             return $this->successResponse('success', $employees);
-        }
-        catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             return $this->serverErrorAlert('error', $exception);
         }
     }
@@ -83,7 +78,7 @@ class CompanyController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function store(Request  $request)
+    public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             "name" => "required",
@@ -101,8 +96,8 @@ class CompanyController extends Controller
             $image = $request->logo;  // your base64 encoded
             $image = str_replace('data:image/png;base64,', '', $image);
             $image = str_replace(' ', '+', $image);
-            $imageName = Str::random(10).'.'.'png';
-            $imagePath = \File::put(storage_path('app/public/company'). '/' . $imageName,
+            $imageName = Str::random(10) . '.' . 'png';
+            $imagePath = \File::put(storage_path('app/public/company') . '/' . $imageName,
                 base64_decode($image));
 
             Company::create([
@@ -115,8 +110,7 @@ class CompanyController extends Controller
 
             DB::commit();
             return $this->createdResponse('Company created successfully');
-        }
-        catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             DB::rollBack();
             return $this->serverErrorAlert('error', $exception);
         }
@@ -137,16 +131,29 @@ class CompanyController extends Controller
         try {
             $user = Company::updateOrCreate([
                 'id' => auth('company')->user()->id
-            ],[
+            ], [
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => $request->password,
             ]);
             DB::commit();
             return $this->createdResponse('Employee updated successfully', $user);
-        }
-        catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             DB::rollBack();
+            return $this->serverErrorAlert('error', $exception);
+        }
+    }
+
+    /**
+     * @param Company $company
+     * @return JsonResponse
+     */
+    public function destroy(Company $company): JsonResponse
+    {
+        try {
+            $company->delete();
+            return $this->successResponse('Company deleted successfully');
+        } catch (\Exception $exception) {
             return $this->serverErrorAlert('error', $exception);
         }
     }
