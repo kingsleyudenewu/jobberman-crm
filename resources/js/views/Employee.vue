@@ -140,7 +140,8 @@ export default {
                 await this.deleteEmployeeAction(id);
                 this.showSuccess = true;
                 setTimeout(() => this.showSuccess = false, 1000);
-                await this.$router.push({name: "Employee"});
+                //await this.$router.push({name: "Employee"});
+                location.reload();
 
             } catch (error) {
                 console.log(error);
