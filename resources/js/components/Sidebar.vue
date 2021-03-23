@@ -10,6 +10,11 @@
             Dashboard
           </router-link>
 
+            <router-link to="/profile" class="nav-link">
+            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+            Profile
+          </router-link>
+
           <router-link to="/employee" class="nav-link" v-if="getGuard === 'user' || getGuard === 'company'">
             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
             Employee

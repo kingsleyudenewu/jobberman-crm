@@ -27,14 +27,17 @@ An application built with using Laravel on the backend and Vuejs on the frontend
 
 
 ### View Project On Heroku
+**Please note that the default password for both employees and company users is "password"**
 ```sh 
-Heroku URL: ![](https://jobberman-crm.herokuapp.com)
+Heroku URL: https://jobberman-crm.herokuapp.com
 
 Admin Default Account:
 - Email: test@test.com
 - Password: password
 
-Company Login URL: ![](http://jobberman-crm.herokuapp.com/company/login)
+Company Login URL: http://jobberman-crm.herokuapp.com/company/login
 
 Employee Login URL: http://jobberman-crm.herokuapp.com/employee/login  
+
+
 ```
