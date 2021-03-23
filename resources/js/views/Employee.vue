@@ -78,7 +78,7 @@
                             </div>
                             <div
                                 class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-                                <button type="submit" class="btn btn-primary">Login
+                                <button type="submit" class="btn btn-primary">Add Employee
                                 </button>
                             </div>
                         </form>
